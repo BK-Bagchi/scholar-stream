@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Layout from "./components/Layout.jsx";
 import NotFound from "./components/NotFound.jsx";
@@ -8,12 +9,12 @@ import Login from "./forms/login.jsx";
 import CreatePartnerProfile from "./forms/CreatePartnerProfile.jsx";
 import FindPartners from "./pages/FindPartners.jsx";
 import MyConnections from "./pages/MyConnections.jsx";
-import PartnerDetails from "./pages/PartnerDetails.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./routes/privateRoute.jsx";
-import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
+import PaymentSuccess from "./components/PaymentSuccess.jsx";
+import PaymentFailed from "./components/PaymentFailed.jsx";
 
 function App() {
   return (
@@ -26,14 +27,15 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/all-scholarships" element={<FindPartners />} />
             <Route element={<PrivateRoute />}>
+              <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/payment/failed" element={<PaymentFailed />} />
               {/* prettier-ignore */}
-              <Route path="/create-partner-profile" element={<CreatePartnerProfile />} />
-              <Route path="/my-connections" element={<MyConnections />} />
-              <Route path="/partner/:id" element={<PartnerDetails />} />
-              <Route path="/dashboard" element={<UserProfile />} />
+              <Route path="/scholarship-details/:id" element={<CreatePartnerProfile />} />
+              <Route path="/checkout" element={<MyConnections />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="/dashboard" element={<UserProfile />} />
         </Routes>
         <ToastContainer
           position="top-center"

@@ -19,16 +19,16 @@ const Footer = () => {
                 theme ? "text-blue-600" : "text-blue-400"
               }`}
             >
-              StudyMate
+              ScholarStream
             </h1>
             <p
               className={`max-w-md ${
                 theme ? "text-gray-700" : "text-gray-300"
               }`}
             >
-              StudyMate is a platform for students to find and connect with the
-              perfect study partners based on subjects, learning preferences, or
-              nearby locations.
+              ScholarStream is a platform designed to connect students with
+              scholarship opportunities. It allows universities or organizations
+              to post scholarships and students to search and apply for them.
             </p>
           </div>
 
