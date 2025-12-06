@@ -12,9 +12,9 @@ import MyConnections from "./pages/MyConnections.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./routes/privateRoute.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
-import UserProfile from "./pages/UserProfile.jsx";
 import PaymentSuccess from "./components/PaymentSuccess.jsx";
 import PaymentFailed from "./components/PaymentFailed.jsx";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 
 function App() {
   return (
@@ -34,8 +34,10 @@ function App() {
               <Route path="/checkout" element={<MyConnections />} />
             </Route>
             <Route path="*" element={<NotFound />} />
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Route>
-          <Route path="/dashboard" element={<UserProfile />} />
         </Routes>
         <ToastContainer
           position="top-center"
