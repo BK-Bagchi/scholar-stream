@@ -1,7 +1,6 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
+import Layout from "./components/Layout.jsx";
 import NotFound from "./components/NotFound.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Register from "./forms/Register.jsx";
@@ -15,15 +14,7 @@ import PrivateRoute from "./routes/privateRoute.jsx";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
-const Layout = () => {
-  return (
-    <>
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </>
-  );
-};
+
 function App() {
   return (
     <AuthProvider>
