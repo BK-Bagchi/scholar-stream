@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  --color-electricBlue: #2979ff;
+  --color-vibrantPurple: #8e24aa;
+  --color-tealGreen: #20c997;
+  --color-charcoalGray: #263238;
+  --color-softWhite: #fafafa;
+}
+
 .active {
   @apply text-blue-600 underline decoration-blue-600;
 }

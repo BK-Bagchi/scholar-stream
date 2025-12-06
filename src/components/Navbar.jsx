@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { UserPlus, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import ThemeToggle from "./ThemeToggle";
@@ -40,29 +40,6 @@ const LoggedInItems = ({
   theme,
 }) => (
   <div className="flex md:flex-row flex-col md:items-center items-start gap-3 relative">
-    <NavLink
-      to="/my-connections"
-      className={`font-medium ${
-        theme
-          ? "text-gray-700 hover:text-blue-600"
-          : "text-gray-200 hover:text-blue-300"
-      } transition`}
-    >
-      My Connections
-    </NavLink>
-
-    <Link
-      to="/create-partner-profile"
-      className={`flex items-center gap-1 ${
-        theme
-          ? "bg-blue-600 hover:bg-blue-700"
-          : "bg-blue-500 hover:bg-blue-600"
-      } text-white px-4 py-2 rounded-md font-medium transition`}
-    >
-      <UserPlus className="w-4 h-4" />
-      Create Partner
-    </Link>
-
     <ThemeToggle />
 
     <div className="relative">
@@ -89,7 +66,7 @@ const LoggedInItems = ({
           }`}
         >
           <Link
-            to="/profile"
+            to="/dashboard"
             onClick={() => setDropdownOpen(false)}
             className={`block px-4 py-2 transition ${
               theme
@@ -97,7 +74,7 @@ const LoggedInItems = ({
                 : "text-gray-200 hover:bg-gray-700"
             }`}
           >
-            Profile
+            Dashboard
           </Link>
           <button
             onClick={handleLogout}
@@ -131,14 +108,14 @@ const NavItems = ({ theme }) => (
     </li>
     <li>
       <NavLink
-        to="/find-partners"
+        to="/all-scholarships"
         className={`font-medium transition ${
           theme
             ? "text-gray-700 hover:text-blue-600"
             : "text-gray-200 hover:text-blue-300"
         }`}
       >
-        Find Partners
+        All Scholarships
       </NavLink>
     </li>
   </>
@@ -164,7 +141,7 @@ const Navbar = () => {
             theme ? "text-blue-600" : "text-blue-400"
           }`}
         >
-          StudyMate
+          ScholarStream
         </Link>
 
         <div className="md:hidden relative">
