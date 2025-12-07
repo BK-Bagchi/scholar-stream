@@ -13,6 +13,7 @@ import PrivateRoute from "./routes/privateRoute.jsx";
 import PaymentSuccess from "./components/PaymentSuccess.jsx";
 import PaymentFailed from "./components/PaymentFailed.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import MyProfile from "./pages/Dashboard/MyProfile.jsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           {/* Login protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="dashboard" element={<Dashboard />}>
+              <Route path="my-profile" element={<MyProfile />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
