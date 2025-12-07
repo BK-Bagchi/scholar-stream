@@ -21,6 +21,7 @@ import AllReviews from "./pages/Dashboard/AllReviews.jsx";
 import AddScholarship from "./forms/AddScholarship.jsx";
 import ManageScholarships from "./pages/Dashboard/ManageScholarships.jsx";
 import ManageUsers from "./pages/Dashboard/ManageUsers.jsx";
+import Analytics from "./pages/Dashboard/Analytics.jsx";
 
 function App() {
   return (
@@ -53,7 +54,7 @@ function App() {
               {/* prettier-ignore */}
               <Route path="manage-scholarships" element={<ManageScholarships />} />
               <Route path="manage-users" element={<ManageUsers />} />
-              {/* <Route path="analytics" element={<NotFound />} /> */}
+              <Route path="analytics" element={<Analytics />} />
 
               {/* prettier-ignore */}
               <Route path="manage-applications" element={<ManageApplications />} />
