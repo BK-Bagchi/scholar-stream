@@ -7,8 +7,8 @@ import NotFound from "./components/NotFound.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Register from "./forms/Register.jsx";
 import Login from "./forms/login.jsx";
-import CreatePartnerProfile from "./forms/CreatePartnerProfile.jsx";
 import AllScholarships from "./pages/AllScholarships.jsx";
+import ScholarshipDetails from "./pages/ScholarshipDetails.jsx";
 import MyConnections from "./pages/MyConnections.jsx";
 import PrivateRoute from "./routes/privateRoute.jsx";
 import PaymentSuccess from "./components/PaymentSuccess.jsx";
@@ -29,7 +29,7 @@ function App() {
             {/* Login protected routes */}
             <Route element={<PrivateRoute />}>
               {/* prettier-ignore */}
-              <Route path="/scholarship/:id" element={<CreatePartnerProfile />} />
+              <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/payment/failed" element={<PaymentFailed />} />
               <Route path="/checkout" element={<MyConnections />} />
