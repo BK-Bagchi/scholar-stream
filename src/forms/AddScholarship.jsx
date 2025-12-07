@@ -1,9 +1,23 @@
 import React from "react";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { scholarshipSchema } from "../validations/scholarshipValidation";
 
 const AddScholarship = () => {
   const { theme } = useTheme();
+
+  //prettier-ignore
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset,} = useForm({
+    resolver: zodResolver(scholarshipSchema),
+  });
+
+  const onSubmit = (data) => {
+    console.log("SCHOLARSHIP FORM DATA:", data);
+    reset();
+  };
+
   return (
     <div
       className={`py-10 min-h-screen transition ${
@@ -20,6 +34,7 @@ const AddScholarship = () => {
         </h2>
 
         <form
+          onSubmit={handleSubmit(onSubmit)}
           className={`p-8 rounded-xl border transition ${
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
           }`}
@@ -33,9 +48,10 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Scholarship Name
+                Scholarship Name <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("scholarshipName")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -44,6 +60,11 @@ const AddScholarship = () => {
                 }`}
                 placeholder="Enter scholarship name"
               />
+              {errors.scholarshipName && (
+                <p className="text-red-500 text-sm">
+                  {errors.scholarshipName.message}
+                </p>
+              )}
             </div>
 
             {/* University Name */}
@@ -53,17 +74,22 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                University Name
+                University Name <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("universityName")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400 focus:ring-blue-400"
                     : "text-gray-200 bg-gray-900 border-gray-600 focus:ring-blue-500"
                 }`}
-                placeholder="Enter university name"
               />
+              {errors.universityName && (
+                <p className="text-red-500 text-sm">
+                  {errors.universityName.message}
+                </p>
+              )}
             </div>
 
             {/* University Image */}
@@ -73,10 +99,11 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                University Image URL
+                University Image URL <span className="text-red-500">*</span>
               </label>
               <input
-                type="text"
+                {...register("universityImage")}
+                type="url"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400 focus:ring-blue-400"
@@ -84,6 +111,11 @@ const AddScholarship = () => {
                 }`}
                 placeholder="https://example.com/image.jpg"
               />
+              {errors.universityImage && (
+                <p className="text-red-500 text-sm">
+                  {errors.universityImage.message}
+                </p>
+              )}
             </div>
 
             {/* Country */}
@@ -93,17 +125,20 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Country
+                Country <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("country")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400 focus:ring-blue-400"
                     : "text-gray-200 bg-gray-900 border-gray-600 focus:ring-blue-500"
                 }`}
-                placeholder="Country"
               />
+              {errors.country && (
+                <p className="text-red-500 text-sm">{errors.country.message}</p>
+              )}
             </div>
 
             {/* City */}
@@ -113,17 +148,20 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                City
+                City <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("city")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400 focus:ring-blue-400"
                     : "text-gray-200 bg-gray-900 border-gray-600 focus:ring-blue-500"
                 }`}
-                placeholder="City"
               />
+              {errors.city && (
+                <p className="text-red-500 text-sm">{errors.city.message}</p>
+              )}
             </div>
 
             {/* World Rank */}
@@ -133,17 +171,22 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                University World Rank
+                University World Rank <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("worldRank", { valueAsNumber: true })}
                 type="number"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400 focus:ring-blue-400"
                     : "text-gray-200 bg-gray-900 border-gray-600 focus:ring-blue-500"
                 }`}
-                placeholder="125"
               />
+              {errors.worldRank && (
+                <p className="text-red-500 text-sm">
+                  {errors.worldRank.message}
+                </p>
+              )}
             </div>
 
             {/* Subject Category */}
@@ -153,17 +196,22 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Subject Category
+                Subject Category <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("subjectCategory")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400 focus:ring-blue-400"
                     : "text-gray-200 bg-gray-900 border-gray-600 focus:ring-blue-500"
                 }`}
-                placeholder="Science / Engineering / Business"
               />
+              {errors.subjectCategory && (
+                <p className="text-red-500 text-sm">
+                  {errors.subjectCategory.message}
+                </p>
+              )}
             </div>
 
             {/* Scholarship Category */}
@@ -173,9 +221,10 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Scholarship Category
+                Scholarship Category <span className="text-red-500">*</span>
               </label>
               <select
+                {...register("scholarshipCategory")}
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400"
@@ -183,10 +232,15 @@ const AddScholarship = () => {
                 }`}
               >
                 <option value="">Select</option>
-                <option value="Full Fund">Full Fund</option>
-                <option value="Partial Fund">Partial Fund</option>
-                <option value="Self Fund">Self Fund</option>
+                <option value="Full fund">Full Fund</option>
+                <option value="Partial">Partial</option>
+                <option value="Self-fund">Self Fund</option>
               </select>
+              {errors.scholarshipCategory && (
+                <p className="text-red-500 text-sm">
+                  {errors.scholarshipCategory.message}
+                </p>
+              )}
             </div>
 
             {/* Degree */}
@@ -196,9 +250,10 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Degree
+                Degree <span className="text-red-500">*</span>
               </label>
               <select
+                {...register("degree")}
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400"
@@ -209,7 +264,11 @@ const AddScholarship = () => {
                 <option value="Diploma">Diploma</option>
                 <option value="Bachelor">Bachelor</option>
                 <option value="Masters">Masters</option>
+                <option value="PhD">PhD</option>
               </select>
+              {errors.degree && (
+                <p className="text-red-500 text-sm">{errors.degree.message}</p>
+              )}
             </div>
 
             {/* Tuition Fees */}
@@ -222,14 +281,19 @@ const AddScholarship = () => {
                 Tuition Fees (Optional)
               </label>
               <input
+                {...register("tuitionFees", { valueAsNumber: true })}
                 type="number"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400"
                     : "text-gray-200 bg-gray-900 border-gray-600"
                 }`}
-                placeholder="0"
               />
+              {errors.tuitionFees && (
+                <p className="text-red-500 text-sm">
+                  {errors.tuitionFees.message}
+                </p>
+              )}
             </div>
 
             {/* Application Fees */}
@@ -239,17 +303,22 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Application Fees
+                Application Fees <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("applicationFees", { valueAsNumber: true })}
                 type="number"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400"
                     : "text-gray-200 bg-gray-900 border-gray-600"
                 }`}
-                placeholder="50"
               />
+              {errors.applicationFees && (
+                <p className="text-red-500 text-sm">
+                  {errors.applicationFees.message}
+                </p>
+              )}
             </div>
 
             {/* Service Charge */}
@@ -259,17 +328,22 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Service Charge
+                Service Charge <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("serviceCharge", { valueAsNumber: true })}
                 type="number"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
                     ? "text-gray-800 bg-white border-gray-400"
                     : "text-gray-200 bg-gray-900 border-gray-600"
                 }`}
-                placeholder="20"
               />
+              {errors.serviceCharge && (
+                <p className="text-red-500 text-sm">
+                  {errors.serviceCharge.message}
+                </p>
+              )}
             </div>
 
             {/* Deadline */}
@@ -279,9 +353,10 @@ const AddScholarship = () => {
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Application Deadline
+                Application Deadline <span className="text-red-500">*</span>
               </label>
               <input
+                {...register("deadline")}
                 type="date"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -289,37 +364,24 @@ const AddScholarship = () => {
                     : "text-gray-200 bg-gray-900 border-gray-600"
                 }`}
               />
+              {errors.deadline && (
+                <p className="text-red-500 text-sm">
+                  {errors.deadline.message}
+                </p>
+              )}
             </div>
 
-            {/* Post Date */}
+            {/* Posted User Email */}
             <div>
               <label
                 className={`text-sm font-medium ${
                   theme ? "text-gray-700" : "text-gray-300"
                 }`}
               >
-                Post Date
+                Posted User Email <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
-                className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
-                  theme
-                    ? "text-gray-800 bg-white border-gray-400"
-                    : "text-gray-200 bg-gray-900 border-gray-600"
-                }`}
-              />
-            </div>
-
-            {/* Posted User Email */}
-            <div className="md:col-span-2">
-              <label
-                className={`text-sm font-medium ${
-                  theme ? "text-gray-700" : "text-gray-300"
-                }`}
-              >
-                Posted User Email
-              </label>
-              <input
+                {...register("userEmail")}
                 type="email"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -328,16 +390,22 @@ const AddScholarship = () => {
                 }`}
                 placeholder="admin@example.com"
               />
+              {errors.userEmail && (
+                <p className="text-red-500 text-sm">
+                  {errors.userEmail.message}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Submit Button */}
           <div className="mt-8 flex justify-center">
             <button
-              type="button"
+              type="submit"
               className="flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700"
             >
-              <PlusCircle size={20} /> Add Scholarship
+              <PlusCircle size={20} />{" "}
+              {isSubmitting ? "Processing..." : "Add Scholarship"}
             </button>
           </div>
         </form>
