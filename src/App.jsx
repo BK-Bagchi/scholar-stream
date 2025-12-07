@@ -19,6 +19,7 @@ import MyReviews from "./pages/Dashboard/MyReviews.jsx";
 import ManageApplications from "./pages/Dashboard/ManageApplications.jsx";
 import AllReviews from "./pages/Dashboard/AllReviews.jsx";
 import AddScholarship from "./forms/AddScholarship.jsx";
+import ManageScholarships from "./pages/Dashboard/ManageScholarships.jsx";
 
 function App() {
   return (
@@ -48,8 +49,9 @@ function App() {
               <Route path="my-profile" element={<MyProfile />} />
 
               <Route path="add-scholarship" element={<AddScholarship />} />
-              {/* <Route path="manage-scholarships" element={<NotFound />} />
-              <Route path="manage-user" element={<NotFound />} />
+              {/* prettier-ignore */}
+              <Route path="manage-scholarships" element={<ManageScholarships />} />
+              {/* <Route path="manage-user" element={<NotFound />} />
               <Route path="analytics" element={<NotFound />} /> */}
 
               {/* prettier-ignore */}
