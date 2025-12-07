@@ -39,20 +39,22 @@ export const AuthProvider = ({ children }) => {
     const user = await loginUser(userEmail, password);
     const { accessToken, displayName: name, email, photoURL } = user;
     const res = await issueJWTToken(accessToken);
-    const { _id } = res.user;
+    const { _id, role } = res.user;
     localStorage.setItem("token", res.token);
     localStorage.setItem("userId", _id);
-    setUser({ _id, name, email, photoURL });
+    localStorage.setItem("role", role);
+    setUser({ _id, name, email, photoURL, role });
   };
 
   const googleLogin = async () => {
     const user = await loginWithGoogle();
     const { accessToken, displayName: name, email, photoURL } = user;
     const res = await issueJWTToken(accessToken);
-    const { _id } = res.user;
+    const { _id, role } = res.user;
     localStorage.setItem("token", res.token);
     localStorage.setItem("userId", _id);
-    setUser({ _id, name, email, photoURL });
+    localStorage.setItem("role", role);
+    setUser({ _id, name, email, photoURL, role });
   };
 
   const logout = async () => {
