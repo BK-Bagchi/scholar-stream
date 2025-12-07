@@ -15,6 +15,7 @@ import PaymentFailed from "./components/PaymentFailed.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import MyProfile from "./pages/Dashboard/MyProfile.jsx";
 import MyApplications from "./pages/Dashboard/MyApplications.jsx";
+import MyReviews from "./pages/Dashboard/MyReviews.jsx";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="my-profile" element={<MyProfile />} />
               <Route path="my-applications" element={<MyApplications />} />
+              <Route path="my-reviews" element={<MyReviews />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
