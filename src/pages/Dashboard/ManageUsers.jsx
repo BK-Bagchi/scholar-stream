@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserCog, Trash2, ChevronDown, Shield } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { ProfileAPI } from "../../api";
+import Loader from "../../components/Loader";
 
 export default function ManageUsers() {
   const { theme } = useTheme();
   const [filter, setFilter] = useState("All");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Placeholder users
-  const users = [
-    { id: 1, name: "Ayan Das", email: "ayan@example.com", role: "Student" },
-    { id: 2, name: "Rima Khan", email: "rima@example.com", role: "Moderator" },
-    { id: 3, name: "Admin Rahim", email: "rahim@example.com", role: "Admin" },
-  ];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await ProfileAPI.getAllProfile();
+        setUsers(res.data.profiles);
+      } catch (error) {
+        console.error(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const filteredUsers =
     filter === "All"
@@ -61,66 +72,74 @@ export default function ManageUsers() {
           theme ? "bg-white" : "bg-gray-800"
         }`}
       >
-        <table className="w-full">
-          <thead>
-            <tr
-              className={`text-left text-sm ${
-                theme
-                  ? "bg-gray-100 text-gray-700"
-                  : "bg-gray-700 text-gray-200"
-              }`}
-            >
-              <th className="py-3 px-4 font-medium">Name</th>
-              <th className="py-3 px-4 font-medium">Email</th>
-              <th className="py-3 px-4 font-medium">Role</th>
-              <th className="py-3 px-4 font-medium">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredUsers.map((user) => (
+        {loading ? (
+          <Loader />
+        ) : (
+          <table className="w-full">
+            <thead>
               <tr
-                key={user.id}
-                className={`border-t ${
-                  theme ? "border-gray-200" : "border-gray-700"
+                className={`text-left text-sm ${
+                  theme
+                    ? "bg-gray-100 text-gray-700"
+                    : "bg-gray-700 text-gray-200"
                 }`}
               >
-                <td className="py-3 px-4">{user.name}</td>
-                <td className="py-3 px-4 opacity-80">{user.email}</td>
-                <td className="py-3 px-4 font-semibold">{user.role}</td>
-
-                <td className="py-3 px-4">
-                  <div className="flex gap-3">
-                    {/* Change Role btn */}
-                    <button
-                      className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${
-                        theme
-                          ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
-                          : "bg-blue-600 text-white hover:bg-blue-700"
-                      }`}
-                    >
-                      <UserCog size={16} /> Change Role
-                    </button>
-
-                    {/* Delete User btn */}
-                    <button
-                      className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${
-                        theme
-                          ? "bg-red-100 text-red-700 hover:bg-red-200"
-                          : "bg-red-600 text-white hover:bg-red-700"
-                      }`}
-                    >
-                      <Trash2 size={16} /> Delete
-                    </button>
-                  </div>
-                </td>
+                <th className="py-3 px-4 font-medium">Name</th>
+                <th className="py-3 px-4 font-medium">Email</th>
+                <th className="py-3 px-4 font-medium">Role</th>
+                <th className="py-3 px-4 font-medium">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
 
-        {filteredUsers.length === 0 && (
-          <p className="text-center py-6 opacity-70">No users found.</p>
+            <tbody>
+              {filteredUsers.length > 0 ? (
+                filteredUsers.map((user) => (
+                  <tr
+                    key={user.id}
+                    className={`border-t ${
+                      theme ? "border-gray-200" : "border-gray-700"
+                    }`}
+                  >
+                    <td className="py-3 px-4">{user.name}</td>
+                    <td className="py-3 px-4 opacity-80">{user.email}</td>
+                    <td className="py-3 px-4 font-semibold">{user.role}</td>
+
+                    <td className="py-3 px-4">
+                      <div className="flex gap-3">
+                        {/* Change Role btn */}
+                        <button
+                          className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${
+                            theme
+                              ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                              : "bg-blue-600 text-white hover:bg-blue-700"
+                          }`}
+                        >
+                          <UserCog size={16} /> Change Role
+                        </button>
+
+                        {/* Delete User btn */}
+                        <button
+                          className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${
+                            theme
+                              ? "bg-red-100 text-red-700 hover:bg-red-200"
+                              : "bg-red-600 text-white hover:bg-red-700"
+                          }`}
+                        >
+                          <Trash2 size={16} /> Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="py-3 px-4 text-center">
+                    No users found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

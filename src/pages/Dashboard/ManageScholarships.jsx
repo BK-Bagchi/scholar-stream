@@ -23,7 +23,7 @@ const ManageScholarships = () => {
 
     fetchScholarships();
   }, []);
-  console.log(scholarships);
+  // console.log(scholarships);
 
   return (
     <div
