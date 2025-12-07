@@ -16,6 +16,7 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import MyProfile from "./pages/Dashboard/MyProfile.jsx";
 import MyApplications from "./pages/Dashboard/MyApplications.jsx";
 import MyReviews from "./pages/Dashboard/MyReviews.jsx";
+import ManageApplications from "./pages/Dashboard/ManageApplications.jsx";
 
 function App() {
   return (
@@ -43,8 +44,12 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="my-profile" element={<MyProfile />} />
+
               <Route path="my-applications" element={<MyApplications />} />
               <Route path="my-reviews" element={<MyReviews />} />
+
+              {/* prettier-ignore */}
+              <Route path="manage-applications" element={<ManageApplications />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
