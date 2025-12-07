@@ -23,7 +23,7 @@ export const scholarshipSchema = z.object({
 
   subjectCategory: z.string().min(2, "Subject Category is required"),
 
-  scholarshipCategory: z.enum(["Full Fund", "Partial", "Self-fund"], {
+  scholarshipCategory: z.enum(["Full fund", "Partial", "Self-fund"], {
     errorMap: () => ({ message: "Select a valid scholarship category" }),
   }),
 

@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { PlusCircle } from "lucide-react";
-import { useTheme } from "../hooks/useTheme";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "../hooks/useTheme";
 import { scholarshipSchema } from "../validations/scholarshipValidation";
+import { ScholarshipAPI } from "../api";
 
 const AddScholarship = () => {
   const { theme } = useTheme();
+  const [postScholarshipError, setPostScholarshipError] = useState({
+    status: false,
+    message: "",
+  });
 
   //prettier-ignore
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset,} = useForm({
     resolver: zodResolver(scholarshipSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log("SCHOLARSHIP FORM DATA:", data);
-    reset();
+  const onSubmit = async (data) => {
+    // console.log("SCHOLARSHIP FORM DATA:", data);
+
+    try {
+      const res = await ScholarshipAPI.addScholarship(data);
+      toast.success(res.data.message);
+      reset();
+    } catch (error) {
+      console.error(error);
+      setPostScholarshipError({
+        status: true,
+        message: `Posting Scholarship Error: ${error.response.data.message}`,
+      });
+    }
   };
 
   return (
@@ -396,6 +413,13 @@ const AddScholarship = () => {
                 </p>
               )}
             </div>
+          </div>
+          <div>
+            {postScholarshipError.status && (
+              <p className="text-red-500 text-sm">
+                {postScholarshipError.message}
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}
