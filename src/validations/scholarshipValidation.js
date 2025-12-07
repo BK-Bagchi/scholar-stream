@@ -11,11 +11,13 @@ export const scholarshipSchema = z.object({
 
   universityImage: z.string().url("Provide a valid image URL (https://...)"),
 
-  country: z.string().min(3, "Country name must be least 3 characters"),
+  universityCountry: z
+    .string()
+    .min(3, "Country name must be least 3 characters"),
 
-  city: z.string().min(3, "City name must be least 3 characters"),
+  universityCity: z.string().min(3, "City name must be least 3 characters"),
 
-  worldRank: z
+  universityWorldRank: z
     .number({
       invalid_type_error: "World Rank must be a number",
     })
@@ -49,7 +51,7 @@ export const scholarshipSchema = z.object({
     })
     .min(0, "Service Charge cannot be negative"),
 
-  deadline: z.string().min(1, "Deadline date is required"),
+  applicationDeadline: z.string().min(1, "Deadline date is required"),
 
-  userEmail: z.string().email("Provide a valid email"),
+  postedUserEmail: z.string().email("Provide a valid email"),
 });

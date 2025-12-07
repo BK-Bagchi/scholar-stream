@@ -67,7 +67,6 @@ const ManageScholarships = () => {
                   <th className="px-6 py-3">Rank</th>
                   <th className="px-6 py-3">Category</th>
                   <th className="px-6 py-3">Degree</th>
-                  <th className="px-6 py-3">Country</th>
                   <th className="px-6 py-3">Fees</th>
                   <th className="px-6 py-3 text-center">Actions</th>
                 </tr>
@@ -90,22 +89,25 @@ const ManageScholarships = () => {
                           size={18}
                           className={theme ? "text-blue-600" : "text-blue-400"}
                         />
-                        {sch.scholarshipName || ""}
-                      </td>
-                      <td className="px-6 py-4">{sch.universityName || ""}</td>
-                      <td className="px-6 py-4">{sch.category || ""}</td>
-                      <td className="px-6 py-4">
-                        {sch.universityCountry || ""}
-                      </td>
-                      <td className="px-6 py-4">{sch.universityCity || ""}</td>
-                      <td className="px-6 py-4">
-                        {sch.universityWorldRank || ""}
+                        {sch.scholarshipName || "Null"}
                       </td>
                       <td className="px-6 py-4">
-                        {sch.scholarshipCategory || ""}
+                        {sch.universityName || "Null"}
                       </td>
-                      <td className="px-6 py-4">{sch.degree || ""}</td>
-                      <td className="px-6 py-4">{sch.tuitionFees || ""}</td>
+                      <td className="px-6 py-4">
+                        {sch.universityCountry || "Null"}
+                      </td>
+                      <td className="px-6 py-4">
+                        {sch.universityCity || "Null"}
+                      </td>
+                      <td className="px-6 py-4">
+                        {sch.universityWorldRank || "Null"}
+                      </td>
+                      <td className="px-6 py-4">
+                        {sch.scholarshipCategory || "Null"}
+                      </td>
+                      <td className="px-6 py-4">{sch.degree || "Null"}</td>
+                      <td className="px-6 py-4">{sch.tuitionFees || "Null"}</td>
 
                       {/* Actions */}
                       <td className="px-6 py-4 text-center">

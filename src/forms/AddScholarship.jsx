@@ -9,6 +9,7 @@ import { ScholarshipAPI } from "../api";
 
 const AddScholarship = () => {
   const { theme } = useTheme();
+  const user = JSON.parse(localStorage.getItem("user"));
   const [postScholarshipError, setPostScholarshipError] = useState({
     status: false,
     message: "",
@@ -17,6 +18,9 @@ const AddScholarship = () => {
   //prettier-ignore
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset,} = useForm({
     resolver: zodResolver(scholarshipSchema),
+    defaultValues: {
+      postedUserEmail: user.email,
+    },
   });
 
   const onSubmit = async (data) => {
@@ -145,7 +149,7 @@ const AddScholarship = () => {
                 Country <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("country")}
+                {...register("universityCountry")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -168,7 +172,7 @@ const AddScholarship = () => {
                 City <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("city")}
+                {...register("universityCity")}
                 type="text"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -191,7 +195,7 @@ const AddScholarship = () => {
                 University World Rank <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("worldRank", { valueAsNumber: true })}
+                {...register("universityWorldRank", { valueAsNumber: true })}
                 type="number"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -373,7 +377,7 @@ const AddScholarship = () => {
                 Application Deadline <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("deadline")}
+                {...register("applicationDeadline")}
                 type="date"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -398,7 +402,7 @@ const AddScholarship = () => {
                 Posted User Email <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("userEmail")}
+                {...register("postedUserEmail")}
                 type="email"
                 className={`w-full mt-1 px-4 py-2 rounded-lg border transition ${
                   theme
@@ -406,6 +410,7 @@ const AddScholarship = () => {
                     : "text-gray-200 bg-gray-900 border-gray-600"
                 }`}
                 placeholder="admin@example.com"
+                readOnly
               />
               {errors.userEmail && (
                 <p className="text-red-500 text-sm">
