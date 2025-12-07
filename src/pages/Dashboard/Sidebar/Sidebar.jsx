@@ -47,7 +47,7 @@ const Sidebar = ({ theme }) => {
               ? "bg-white border-gray-200 hover:shadow-md hover:border-blue-200"
               : "bg-gray-800 border-gray-700 hover:shadow-md hover:border-blue-400"
           }`}
-          onClick={() => navigate("/dashboard/my-profile")}
+          onClick={() => navigate("/dashboard")}
         >
           <div className="flex items-center justify-center">
             <img

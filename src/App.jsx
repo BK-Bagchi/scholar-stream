@@ -48,7 +48,7 @@ function App() {
           {/* Login protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="dashboard" element={<Dashboard />}>
-              <Route path="my-profile" element={<MyProfile />} />
+              <Route index element={<MyProfile />} />
 
               <Route path="add-scholarship" element={<AddScholarship />} />
               {/* prettier-ignore */}

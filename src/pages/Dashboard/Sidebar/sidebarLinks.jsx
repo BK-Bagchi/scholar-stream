@@ -5,7 +5,7 @@ export const adminSidebarLinks = [
   {
     name: "My Profile",
     icon: <User size={20} />,
-    route: "/dashboard/my-profile",
+    route: "/dashboard",
   },
   {
     name: "Add Scholarship",
@@ -33,7 +33,7 @@ export const moderatorSidebarLinks = [
   {
     name: "My Profile",
     icon: <User size={20} />,
-    route: "/dashboard/my-profile",
+    route: "/dashboard",
   },
   {
     name: "Manage Applications",
@@ -51,7 +51,7 @@ export const studentSidebarLinks = [
   {
     name: "My Profile",
     icon: <User size={20} />,
-    route: "/dashboard/my-profile",
+    route: "/dashboard",
   },
   {
     name: "My Applications",
