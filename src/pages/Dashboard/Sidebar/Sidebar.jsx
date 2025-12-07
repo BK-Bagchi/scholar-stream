@@ -23,7 +23,7 @@ const Sidebar = ({ theme }) => {
   const getRoleLinks = () => {
     if (userRole === "ADMIN") return adminSidebarLinks;
     if (userRole === "MODERATOR") return moderatorSidebarLinks;
-    return moderatorSidebarLinks; // default student
+    return adminSidebarLinks; // default student
   };
   // console.log(userRole);
 

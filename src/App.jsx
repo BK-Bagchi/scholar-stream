@@ -18,6 +18,7 @@ import MyApplications from "./pages/Dashboard/MyApplications.jsx";
 import MyReviews from "./pages/Dashboard/MyReviews.jsx";
 import ManageApplications from "./pages/Dashboard/ManageApplications.jsx";
 import AllReviews from "./pages/Dashboard/AllReviews.jsx";
+import AddScholarship from "./forms/AddScholarship.jsx";
 
 function App() {
   return (
@@ -46,12 +47,18 @@ function App() {
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="my-profile" element={<MyProfile />} />
 
-              <Route path="my-applications" element={<MyApplications />} />
-              <Route path="my-reviews" element={<MyReviews />} />
+              <Route path="add-scholarship" element={<AddScholarship />} />
+              {/* <Route path="manage-scholarships" element={<NotFound />} />
+              <Route path="manage-user" element={<NotFound />} />
+              <Route path="analytics" element={<NotFound />} /> */}
 
               {/* prettier-ignore */}
               <Route path="manage-applications" element={<ManageApplications />} />
               <Route path="all-reviews" element={<AllReviews />} />
+
+              <Route path="my-applications" element={<MyApplications />} />
+              <Route path="my-reviews" element={<MyReviews />} />
+
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
