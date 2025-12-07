@@ -17,6 +17,7 @@ import MyProfile from "./pages/Dashboard/MyProfile.jsx";
 import MyApplications from "./pages/Dashboard/MyApplications.jsx";
 import MyReviews from "./pages/Dashboard/MyReviews.jsx";
 import ManageApplications from "./pages/Dashboard/ManageApplications.jsx";
+import AllReviews from "./pages/Dashboard/AllReviews.jsx";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
 
               {/* prettier-ignore */}
               <Route path="manage-applications" element={<ManageApplications />} />
+              <Route path="all-reviews" element={<AllReviews />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>
