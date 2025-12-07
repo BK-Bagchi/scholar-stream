@@ -9,7 +9,6 @@ import Register from "./forms/Register.jsx";
 import Login from "./forms/login.jsx";
 import AllScholarships from "./pages/AllScholarships.jsx";
 import ScholarshipDetails from "./pages/ScholarshipDetails.jsx";
-import MyConnections from "./pages/MyConnections.jsx";
 import PrivateRoute from "./routes/privateRoute.jsx";
 import PaymentSuccess from "./components/PaymentSuccess.jsx";
 import PaymentFailed from "./components/PaymentFailed.jsx";
@@ -32,7 +31,7 @@ function App() {
               <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/payment/failed" element={<PaymentFailed />} />
-              <Route path="/checkout" element={<MyConnections />} />
+              <Route path="/checkout" element={<NotFound />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Route>
