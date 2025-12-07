@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { adminSidebarLinks, moderatorSidebarLinks, studentSidebarLinks, } from "./sidebarLinks";
 import Avatar from "../../../assets/Default_Avatar.jpeg";
 import { useAuth } from "../../../hooks/useAuth";
+import formatText from "../../../utils/formatText";
 
 const Sidebar = ({ theme }) => {
   const { user, logout } = useAuth();
@@ -64,7 +65,9 @@ const Sidebar = ({ theme }) => {
               {userName}
             </span>
 
-            <span className="text-xs text-gray-400">{userRole}</span>
+            <span className="text-xs text-gray-400">
+              {formatText(userRole)}
+            </span>
           </div>
         </div>
 

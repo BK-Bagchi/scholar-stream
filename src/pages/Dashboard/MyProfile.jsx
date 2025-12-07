@@ -3,6 +3,7 @@ import { User, Mail, Shield } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { ProfileAPI } from "../../api";
 import Loader from "../../components/Loader";
+import formatText from "../../utils/formatText";
 
 const MyProfile = () => {
   const { theme } = useTheme();
@@ -70,7 +71,7 @@ const MyProfile = () => {
                   theme ? "text-gray-600" : "text-gray-300"
                 }`}
               >
-                {user?.role || "student"}
+                {formatText(user?.role) || "Not Specified"}
               </p>
             </div>
 
@@ -151,7 +152,7 @@ const MyProfile = () => {
                       theme ? "text-gray-800" : "text-gray-100"
                     }`}
                   >
-                    {user?.role || "student"}
+                    {formatText(user?.role) || "student"}
                   </p>
                 </div>
               </div>
