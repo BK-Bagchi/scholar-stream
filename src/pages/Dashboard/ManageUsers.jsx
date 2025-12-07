@@ -29,6 +29,14 @@ export default function ManageUsers() {
       ? users
       : users.filter((u) => u.role.toLowerCase() === filter.toLowerCase());
 
+  const handleRoleChange = (userId, newRole) => {
+    console.log("Changing role for user:", userId, "to", newRole);
+  };
+
+  const handleDeleteUser = (userId) => {
+    console.log("Deleting user:", userId);
+  };
+
   return (
     <div
       className={`p-6 rounded-2xl min-h-screen transition ${
@@ -105,20 +113,27 @@ export default function ManageUsers() {
                     <td className="py-3 px-4 font-semibold">{user.role}</td>
 
                     <td className="py-3 px-4">
-                      <div className="flex gap-3">
-                        {/* Change Role btn */}
-                        <button
-                          className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${
+                      <div className="flex gap-3 items-center">
+                        {/* Change Role Dropdown */}
+                        <select
+                          value={user.role}
+                          onChange={(e) =>
+                            handleRoleChange(user._id, e.target.value)
+                          }
+                          className={`px-3 py-1 rounded-lg text-sm font-medium transition focus:outline-none ${
                             theme
                               ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
                               : "bg-blue-600 text-white hover:bg-blue-700"
                           }`}
                         >
-                          <UserCog size={16} /> Change Role
-                        </button>
+                          <option value="student">Student</option>
+                          <option value="moderator">Moderator</option>
+                          <option value="admin">Admin</option>
+                        </select>
 
-                        {/* Delete User btn */}
+                        {/* Delete User Button */}
                         <button
+                          onClick={() => handleDeleteUser(user._id)}
                           className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${
                             theme
                               ? "bg-red-100 text-red-700 hover:bg-red-200"
