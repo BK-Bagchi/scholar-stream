@@ -1,32 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, Pencil, Trash2, DollarSign, Star, X } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { ApplicationAPI } from "../../api";
+import Loader from "../../components/Loader";
 
 const MyApplications = () => {
   const { theme } = useTheme();
-  // Placeholder sample data
-  const applications = [
-    {
-      id: 1,
-      universityName: "Harvard University",
-      universityAddress: "Cambridge, USA",
-      feedback: "Pending review",
-      subjectCategory: "Computer Science",
-      applicationFees: "$100",
-      applicationStatus: "pending",
-      paymentStatus: "unpaid",
-    },
-    {
-      id: 2,
-      universityName: "University of Toronto",
-      universityAddress: "Toronto, Canada",
-      feedback: "Excellent profile!",
-      subjectCategory: "Engineering",
-      applicationFees: "$80",
-      applicationStatus: "completed",
-      paymentStatus: "paid",
-    },
-  ];
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await ApplicationAPI.getUserApplications();
+        setApplications(res.data.applications);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApplications();
+  }, []);
+  // console.log(applications);
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -52,84 +48,147 @@ const MyApplications = () => {
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
           }`}
         >
-          <table className="w-full">
-            <thead
-              className={`text-left text-sm ${
-                theme
-                  ? "bg-gray-200 text-gray-700"
-                  : "bg-gray-700 text-gray-200"
-              }`}
-            >
-              <tr>
-                <th className="p-4">University Name</th>
-                <th className="p-4">Address</th>
-                <th className="p-4">Feedback</th>
-                <th className="p-4">Subject</th>
-                <th className="p-4">Fees</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {applications.map((app) => (
-                <tr
-                  key={app.id}
-                  className={`text-sm border-t transition ${
-                    theme
-                      ? "border-gray-300 hover:bg-gray-100"
-                      : "border-gray-700 hover:bg-gray-700/40"
-                  }`}
-                >
-                  <td className="p-4">{app.universityName}</td>
-                  <td className="p-4">{app.universityAddress}</td>
-                  <td className="p-4">{app.feedback}</td>
-                  <td className="p-4">{app.subjectCategory}</td>
-                  <td className="p-4">{app.applicationFees}</td>
-                  <td className="p-4 capitalize">{app.applicationStatus}</td>
-
-                  <td className="p-4 flex gap-2 flex-wrap">
-                    {/* Details */}
-                    <button
-                      onClick={() => {
-                        setSelectedApp(app);
-                        setShowDetailsModal(true);
-                      }}
-                      className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-blue-500 text-white hover:bg-blue-600"
-                    >
-                      <Eye size={16} /> Details
-                    </button>
-
-                    {/* Edit */}
-                    <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
-                      <Pencil size={16} /> Edit
-                    </button>
-
-                    {/* Pay */}
-                    <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-green-500 text-white hover:bg-green-600">
-                      <DollarSign size={16} /> Pay
-                    </button>
-
-                    {/* Delete */}
-                    <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600">
-                      <Trash2 size={16} /> Delete
-                    </button>
-
-                    {/* Add Review */}
-                    <button
-                      onClick={() => {
-                        setSelectedApp(app);
-                        setShowReviewModal(true);
-                      }}
-                      className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-purple-500 text-white hover:bg-purple-600"
-                    >
-                      <Star size={16} /> Review
-                    </button>
-                  </td>
+          {loading ? (
+            <Loader />
+          ) : (
+            <table className="w-full">
+              <thead
+                className={`text-left text-sm ${
+                  theme
+                    ? "bg-gray-200 text-gray-700"
+                    : "bg-gray-700 text-gray-200"
+                }`}
+              >
+                <tr>
+                  <th className="p-4">University</th>
+                  <th className="p-4">Degree</th>
+                  <th className="p-4">Category</th>
+                  <th className="p-4">Fees</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Payment</th>
+                  <th className="p-4">Applied</th>
+                  <th className="p-4">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {applications.length > 0 ? (
+                  applications.map((app) => (
+                    <tr
+                      key={app._id}
+                      className={`text-sm border-t transition ${
+                        theme
+                          ? "border-gray-300 hover:bg-gray-100"
+                          : "border-gray-700 hover:bg-gray-700/40"
+                      }`}
+                    >
+                      {/* University Name */}
+                      <td className="p-4 font-medium">{app.universityName}</td>
+
+                      {/* Degree */}
+                      <td className="p-4">{app.degree}</td>
+
+                      {/* Scholarship Category */}
+                      <td className="p-4">{app.scholarshipCategory}</td>
+
+                      {/* Fees */}
+                      <td className="p-4">
+                        <div className="flex flex-col">
+                          <span>
+                            App Fee: <b>${app.applicationFees}</b>
+                          </span>
+                          <span>
+                            Service: <b>${app.serviceCharge}</b>
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* Application Status */}
+                      <td className="p-4">
+                        <span
+                          className={`px-2 py-1 rounded-md text-xs font-semibold ${
+                            app.applicationStatus === "approved"
+                              ? "bg-green-500/20 text-green-600"
+                              : app.applicationStatus === "rejected"
+                              ? "bg-red-500/20 text-red-600"
+                              : "bg-yellow-500/20 text-yellow-600"
+                          }`}
+                        >
+                          {app.applicationStatus}
+                        </span>
+                      </td>
+
+                      {/* Payment Status */}
+                      <td className="p-4 capitalize">
+                        <span
+                          className={`px-2 py-1 rounded-md text-xs font-semibold ${
+                            app.paymentStatus === "paid"
+                              ? "bg-green-600/20 text-green-600"
+                              : "bg-red-500/20 text-red-600"
+                          }`}
+                        >
+                          {app.paymentStatus}
+                        </span>
+                      </td>
+
+                      {/* Application Date */}
+                      <td className="p-4">
+                        {new Date(app.applicationDate).toLocaleDateString()}
+                      </td>
+
+                      {/* Actions */}
+                      <td className="p-4 flex gap-2 flex-wrap">
+                        {/* Details */}
+                        <button
+                          onClick={() => {
+                            setSelectedApp(app);
+                            setShowDetailsModal(true);
+                          }}
+                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+                        >
+                          <Eye size={16} /> Details
+                        </button>
+
+                        {/* Edit */}
+                        <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
+                          <Pencil size={16} /> Edit
+                        </button>
+
+                        {/* Pay */}
+                        {app.paymentStatus === "unpaid" && (
+                          <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-green-500 text-white hover:bg-green-600">
+                            <DollarSign size={16} /> Pay
+                          </button>
+                        )}
+
+                        {/* Delete */}
+                        <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600">
+                          <Trash2 size={16} /> Delete
+                        </button>
+
+                        {/* Review */}
+                        <button
+                          onClick={() => {
+                            setSelectedApp(app);
+                            setShowReviewModal(true);
+                          }}
+                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-purple-500 text-white hover:bg-purple-600"
+                        >
+                          <Star size={16} /> Review
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" className="p-4 text-center">
+                      No applications found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* ---------------------- DETAILS MODAL ---------------------- */}
