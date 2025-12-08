@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Pencil, Trash2, Star, X } from "lucide-react";
+import { toast } from "react-toastify";
 import { useTheme } from "../../hooks/useTheme";
 import { ReviewAPI } from "../../api";
 import Loader from "../../components/Loader";
@@ -29,7 +30,20 @@ const MyReviews = () => {
 
   const [selectedReview, setSelectedReview] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleDeleteReview = async (id) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this review?"
+    );
+    if (!confirmation) return;
+    try {
+      const res = await ReviewAPI.deleteReview(id);
+      toast.success(res.data.message);
+      setReviews((prev) => prev.filter((rev) => rev._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -132,8 +146,7 @@ const MyReviews = () => {
 
                   <button
                     onClick={() => {
-                      setSelectedReview(rev);
-                      setShowDeleteModal(true);
+                      handleDeleteReview(rev._id);
                     }}
                     className="px-3 py-1 rounded-md text-sm flex items-center gap-1 bg-red-600 text-white hover:bg-red-700"
                   >
@@ -167,11 +180,6 @@ const MyReviews = () => {
               />
             }
           />
-        )}
-
-        {showDeleteModal && selectedReview && (
-          /* your existing delete modal code */
-          <></>
         )}
       </div>
     </div>
