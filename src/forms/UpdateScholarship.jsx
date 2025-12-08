@@ -11,8 +11,11 @@ function formatDate(dateString) {
   return new Date(dateString).toISOString().split("T")[0];
 }
 
-const UpdateScholarship = ({ scholarship }) => {
-  console.log(scholarship);
+const UpdateScholarship = ({
+  scholarship,
+  setScholarships,
+  setUpdateScholarshipModal,
+}) => {
   const { theme } = useTheme();
   const [postScholarshipError, setPostScholarshipError] = useState({
     status: false,
@@ -45,9 +48,15 @@ const UpdateScholarship = ({ scholarship }) => {
     console.log("SCHOLARSHIP FORM DATA:", data);
 
     try {
-      const res = await ScholarshipAPI.updateScholarship(data);
+      const res = await ScholarshipAPI.updateScholarship(scholarship._id, data);
       toast.success(res.data.message);
+      setScholarships((prev) =>
+        prev.map((sch) =>
+          sch._id === scholarship._id ? res.data.scholarship : sch
+        )
+      );
       reset();
+      setUpdateScholarshipModal(false);
     } catch (error) {
       console.error(error);
       setPostScholarshipError({
@@ -452,7 +461,7 @@ const UpdateScholarship = ({ scholarship }) => {
               className="flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700"
             >
               <PlusCircle size={20} />{" "}
-              {isSubmitting ? "Processing..." : "Add Scholarship"}
+              {isSubmitting ? "Processing..." : "Update Scholarship"}
             </button>
           </div>
         </form>

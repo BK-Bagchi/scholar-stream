@@ -180,7 +180,13 @@ const ManageScholarships = () => {
       </div>
       {updateScholarshipModal && (
         <Modal
-          render={<UpdateScholarship scholarship={updateScholarship} />}
+          render={
+            <UpdateScholarship
+              scholarship={updateScholarship}
+              setScholarships={setScholarships}
+              setUpdateScholarshipModal={setUpdateScholarshipModal}
+            />
+          }
           setActiveModal={setUpdateScholarshipModal}
         />
       )}
