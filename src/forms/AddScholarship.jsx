@@ -3,13 +3,14 @@ import { PlusCircle } from "lucide-react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { scholarshipSchema } from "../validations/scholarshipValidation";
 import { ScholarshipAPI } from "../api";
 
 const AddScholarship = () => {
   const { theme } = useTheme();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuth();
   const [postScholarshipError, setPostScholarshipError] = useState({
     status: false,
     message: "",

@@ -3,7 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 //prettier-ignore
 import { loginUser, loginWithGoogle, logoutUser, registerUser } from "../firebase/firebase.auth";
-import { AuthAPI } from "../api";
+import { AuthAPI, ProfileAPI } from "../api";
 
 const AuthContext = createContext();
 
@@ -12,12 +12,24 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      const { displayName: name, email, photoURL } = currentUser;
-      setUser({ name, email, photoURL });
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (!currentUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await ProfileAPI.getUserProfile();
+        const { _id, name, email, avatar: photoURL, role } = res.data.profile;
+        setUser({ _id, name, email, photoURL, role });
+      } catch (error) {
+        console.error("Profile fetch failed:", error);
+      }
+
       setLoading(false);
     });
-    setLoading(false);
+
     return () => unsubscribe();
   }, []);
 
@@ -41,9 +53,6 @@ export const AuthProvider = ({ children }) => {
     const res = await issueJWTToken(accessToken);
     const { _id, role } = res.user;
     localStorage.setItem("token", res.token);
-    localStorage.setItem("userId", _id);
-    localStorage.setItem("user", JSON.stringify(res.user));
-    localStorage.setItem("role", role);
     setUser({ _id, name, email, photoURL, role });
   };
 
@@ -53,9 +62,6 @@ export const AuthProvider = ({ children }) => {
     const res = await issueJWTToken(accessToken);
     const { _id, role } = res.user;
     localStorage.setItem("token", res.token);
-    localStorage.setItem("userId", _id);
-    localStorage.setItem("user", JSON.stringify(res.user));
-    localStorage.setItem("role", role);
     setUser({ _id, name, email, photoURL, role });
   };
 

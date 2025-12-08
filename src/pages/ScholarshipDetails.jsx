@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 //prettier-ignore
 import { Star, Globe, Calendar, MapPin, BadgeDollarSign, GraduationCap, Layers, Badge, LibraryBig } from "lucide-react";
+
+import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { ApplicationAPI, ScholarshipAPI } from "../api";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 
 const ScholarshipDetails = () => {
+  const { user } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const user = JSON.parse(localStorage.getItem("user"));
   const [scholarships, setScholarships] = useState([]);
   const [loading, setLoading] = useState(true);
 
