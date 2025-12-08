@@ -1,30 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, Edit2, Trash2, MessageCircle, X } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { ApplicationAPI } from "../../api";
+import Loader from "../../components/Loader";
+import formatText from "../../utils/formatText";
 
 const ManageApplications = () => {
   const { theme } = useTheme();
-  // Placeholder data
-  const applications = [
-    {
-      id: 1,
-      applicantName: "John Doe",
-      applicantEmail: "john@example.com",
-      universityName: "Harvard University",
-      feedback: "Pending review",
-      applicationStatus: "pending",
-      paymentStatus: "unpaid",
-    },
-    {
-      id: 2,
-      applicantName: "Jane Smith",
-      applicantEmail: "jane@example.com",
-      universityName: "University of Toronto",
-      feedback: "Good profile",
-      applicationStatus: "completed",
-      paymentStatus: "paid",
-    },
-  ];
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await ApplicationAPI.getAllApplications();
+        setApplications(res.data.applications);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchApplications();
+  }, []);
+  // console.log(applications);
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -50,88 +49,118 @@ const ManageApplications = () => {
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
           }`}
         >
-          <table className="w-full">
-            <thead
-              className={`text-left text-sm ${
-                theme
-                  ? "bg-gray-200 text-gray-700"
-                  : "bg-gray-700 text-gray-200"
-              }`}
-            >
-              <tr>
-                <th className="p-4">Applicant Name</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">University</th>
-                <th className="p-4">Feedback</th>
-                <th className="p-4">Application Status</th>
-                <th className="p-4">Payment Status</th>
-                <th className="p-4">Actions</th>
-              </tr>
-            </thead>
+          {loading ? (
+            <Loader />
+          ) : (
+            <table className="w-full">
+              <thead
+                className={`text-left text-sm ${
+                  theme
+                    ? "bg-gray-200 text-gray-700"
+                    : "bg-gray-700 text-gray-200"
+                }`}
+              >
+                <tr>
+                  <th className="p-4">Applicant Name</th>
+                  <th className="p-4">Email</th>
+                  <th className="p-4">University</th>
+                  <th className="p-4">Feedback</th>
+                  <th className="p-4">Application Status</th>
+                  <th className="p-4">Payment Status</th>
+                  <th className="p-4">Actions</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {applications.map((app) => (
-                <tr
-                  key={app.id}
-                  className={`text-sm border-t transition ${
-                    theme
-                      ? "border-gray-300 hover:bg-gray-100"
-                      : "border-gray-700 hover:bg-gray-700/40"
-                  }`}
-                >
-                  <td className="p-4">{app.applicantName}</td>
-                  <td className="p-4">{app.applicantEmail}</td>
-                  <td className="p-4">{app.universityName}</td>
-                  <td className="p-4">{app.feedback}</td>
-                  <td className="p-4 capitalize">{app.applicationStatus}</td>
-                  <td className="p-4 capitalize">{app.paymentStatus}</td>
-                  <td className="p-4 flex gap-2 flex-wrap">
-                    {/* Details */}
-                    <button
-                      onClick={() => {
-                        setSelectedApp(app);
-                        setShowDetailsModal(true);
-                      }}
-                      className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-blue-500 text-white hover:bg-blue-600"
-                    >
-                      <Eye size={16} /> Details
-                    </button>
-
-                    {/* Feedback */}
-                    <button
-                      onClick={() => {
-                        setSelectedApp(app);
-                        setShowFeedbackModal(true);
-                      }}
-                      className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-purple-500 text-white hover:bg-purple-600"
-                    >
-                      <MessageCircle size={16} /> Feedback
-                    </button>
-
-                    {/* Status Update */}
-                    <select
-                      defaultValue={app.applicationStatus}
-                      className={`px-2 py-1 rounded-md border text-sm ${
+              <tbody>
+                {applications.length > 0 ? (
+                  applications.map((app) => (
+                    <tr
+                      key={app._id}
+                      className={`text-sm border-t transition ${
                         theme
-                          ? "bg-gray-100 border-gray-300 text-gray-800"
-                          : "bg-gray-700 border-gray-600 text-gray-100"
+                          ? "border-gray-300 hover:bg-gray-100"
+                          : "border-gray-700 hover:bg-gray-700/40"
                       }`}
                     >
-                      <option value="pending">Pending</option>
-                      <option value="processing">Processing</option>
-                      <option value="completed">Completed</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
+                      {/* Applicant Name */}
+                      <td className="p-4">{app.userName}</td>
 
-                    {/* Cancel */}
-                    <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600">
-                      <Trash2 size={16} /> Cancel
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      {/* Email */}
+                      <td className="p-4">{app.userEmail}</td>
+
+                      {/* University */}
+                      <td className="p-4">{app.universityName}</td>
+
+                      {/* Feedback */}
+                      <td className="p-4">{app.feedback || "N/A"}</td>
+
+                      {/* Application Status */}
+                      <td className="p-4">
+                        {formatText(app.applicationStatus)}
+                      </td>
+
+                      {/* Payment Status */}
+                      <td className="p-4">{formatText(app.paymentStatus)}</td>
+
+                      {/* Actions */}
+                      <td className="p-4 flex gap-2 flex-wrap">
+                        {/* Details */}
+                        <button
+                          onClick={() => {
+                            setSelectedApp(app);
+                            setShowDetailsModal(true);
+                          }}
+                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+                        >
+                          <Eye size={16} /> Details
+                        </button>
+
+                        {/* Feedback */}
+                        <button
+                          onClick={() => {
+                            setSelectedApp(app);
+                            setShowFeedbackModal(true);
+                          }}
+                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-purple-500 text-white hover:bg-purple-600"
+                        >
+                          <MessageCircle size={16} /> Feedback
+                        </button>
+
+                        {/* Status Update */}
+                        <select
+                          defaultValue={app.applicationStatus}
+                          className={`px-2 py-1 rounded-md border text-sm ${
+                            theme
+                              ? "bg-gray-100 border-gray-300 text-gray-800"
+                              : "bg-gray-700 border-gray-600 text-gray-100"
+                          }`}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="processing">Processing</option>
+                          <option value="completed">Completed</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+
+                        {/* Cancel */}
+                        <button
+                          // onClick={() => handleDelete(app._id)}
+                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600"
+                        >
+                          <Trash2 size={16} /> Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="p-4 text-center">
+                      No applications found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* ---------------------- DETAILS MODAL ---------------------- */}
@@ -166,22 +195,23 @@ const ManageApplications = () => {
                 }`}
               >
                 <p>
-                  <b>Applicant Name:</b> {selectedApp.applicantName}
+                  <b>Applicant Name:</b> {selectedApp.userName}
                 </p>
                 <p>
-                  <b>Email:</b> {selectedApp.applicantEmail}
+                  <b>Email:</b> {selectedApp.userEmail}
                 </p>
                 <p>
                   <b>University:</b> {selectedApp.universityName}
                 </p>
                 <p>
-                  <b>Feedback:</b> {selectedApp.feedback}
+                  <b>Feedback:</b> {selectedApp.feedback || "N/A"}
                 </p>
                 <p>
-                  <b>Application Status:</b> {selectedApp.applicationStatus}
+                  <b>Application Status:</b>{" "}
+                  {formatText(selectedApp.applicationStatus)}
                 </p>
                 <p>
-                  <b>Payment Status:</b> {selectedApp.paymentStatus}
+                  <b>Payment Status:</b> {formatText(selectedApp.paymentStatus)}
                 </p>
               </div>
             </div>

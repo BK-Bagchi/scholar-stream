@@ -20,10 +20,9 @@ const Sidebar = ({ theme }) => {
     setActiveRoute(location.pathname);
   }, [location, logout]);
 
-  // Select links based on role
   const getRoleLinks = () => {
-    if (userRole === "ADMIN") return adminSidebarLinks;
-    if (userRole === "MODERATOR") return moderatorSidebarLinks;
+    if (userRole === "admin") return adminSidebarLinks;
+    if (userRole === "moderator") return moderatorSidebarLinks;
     return studentSidebarLinks; // default student
   };
   // console.log(userRole);
