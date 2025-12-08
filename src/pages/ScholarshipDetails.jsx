@@ -3,14 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 //prettier-ignore
 import { Star, Globe, Calendar, MapPin, BadgeDollarSign, GraduationCap, Layers, Badge, LibraryBig } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
-import { ScholarshipAPI } from "../api";
+import { ApplicationAPI, ScholarshipAPI } from "../api";
 import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 const ScholarshipDetails = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const user = JSON.parse(localStorage.getItem("user"));
   const [scholarships, setScholarships] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,6 +56,31 @@ const ScholarshipDetails = () => {
         "Great experience overall, but the application process was competitive.",
     },
   ];
+
+  const handleApplication = async (scholarship) => {
+    const confirmation = window.confirm("Are you sure you want to apply?");
+    if (!confirmation) return;
+
+    const data = {
+      scholarshipId: scholarship._id,
+      userId: user._id,
+      userName: user.name,
+      userEmail: user.email,
+      universityName: scholarship.universityName,
+      scholarshipCategory: scholarship.scholarshipCategory,
+      degree: scholarship.degree,
+      applicationFees: scholarship.applicationFees,
+      serviceCharge: scholarship.serviceCharge,
+    };
+
+    try {
+      const res = await ApplicationAPI.applyScholarship(data);
+      toast.success(res.data.message);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <div className={`py-12 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
@@ -233,7 +260,8 @@ const ScholarshipDetails = () => {
 
             {/* Apply Button */}
             <button
-              onClick={() => navigate(`/checkout/${scholarship._id}`)}
+              // onClick={() => navigate(`/checkout/${scholarship._id}`)}
+              onClick={() => handleApplication(scholarship)}
               className={`w-full py-3 text-center rounded-xl font-semibold transition-all text-white shadow ${
                 theme
                   ? "bg-blue-600 hover:bg-blue-700"
