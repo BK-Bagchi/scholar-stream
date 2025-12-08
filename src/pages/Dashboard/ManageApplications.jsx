@@ -7,6 +7,7 @@ import formatText from "../../utils/formatText";
 import Modal from "../../components/Modal";
 import ScholarshipDetails from "./Components/ScholarshipDetails";
 import SendFeedback from "./Components/SendFeedback";
+import { toast } from "react-toastify";
 
 const ManageApplications = () => {
   const { theme } = useTheme();
@@ -31,6 +32,46 @@ const ManageApplications = () => {
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+  const handleStatusUpdate = async (id, status) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to update the status?"
+    );
+    if (!confirmation) return;
+
+    try {
+      const res = await ApplicationAPI.updateApplicationStatus(id, { status });
+      toast.success(res.data.message);
+      setApplications((prev) =>
+        prev.map((app) => (app._id === id ? res.data.application : app))
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleRejectApplication = async (id) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to reject this application?"
+    );
+    if (!confirmation) return;
+
+    try {
+      const res = await ApplicationAPI.updateApplicationStatus(id, {
+        status: "rejected",
+      });
+      toast.success(res.data.message);
+      setApplications((prev) =>
+        prev.map((app) => (app._id === id ? res.data.application : app))
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <div
@@ -132,6 +173,9 @@ const ManageApplications = () => {
                         {/* Status Update */}
                         <select
                           defaultValue={app.applicationStatus}
+                          onChange={(e) =>
+                            handleStatusUpdate(app._id, e.target.value)
+                          }
                           className={`px-2 py-1 rounded-md border text-sm ${
                             theme
                               ? "bg-gray-100 border-gray-300 text-gray-800"
@@ -148,7 +192,8 @@ const ManageApplications = () => {
 
                         {/* Cancel */}
                         <button
-                          // onClick={() => handleDelete(app._id)}
+                          disabled={app.applicationStatus === "rejected"}
+                          onClick={() => handleRejectApplication(app._id)}
                           className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600"
                         >
                           <Trash2 size={16} /> Cancel
