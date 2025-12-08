@@ -6,7 +6,7 @@ const testimonials = [
     name: "Ariana Rahman",
     role: "Medical Student",
     feedback:
-      "StudyMate helped me connect with amazing peers who share my study goals. We keep each other motivated every day!",
+      "ScholarStream helped me connect with amazing peers who share my study goals. We keep each other motivated every day!",
     image: "https://randomuser.me/api/portraits/women/68.jpg",
   },
   {
@@ -22,7 +22,7 @@ const testimonials = [
     name: "Taslima Nahar",
     role: "Engineering Student",
     feedback:
-      "The platform makes finding serious study partners effortless. My grades have improved since joining StudyMate.",
+      "The platform makes finding serious study partners effortless. My grades have improved since joining ScholarStream.",
     image: "https://randomuser.me/api/portraits/women/12.jpg",
   },
 ];

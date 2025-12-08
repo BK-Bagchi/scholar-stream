@@ -94,7 +94,7 @@ const Footer = () => {
               : "border-gray-700 text-gray-400"
           }`}
         >
-          © {new Date().getFullYear()} StudyMate. All rights reserved.
+          © {new Date().getFullYear()} ScholarStream. All rights reserved.
         </div>
       </div>
     </footer>

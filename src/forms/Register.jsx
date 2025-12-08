@@ -56,7 +56,7 @@ const Register = () => {
             theme ? "text-blue-600" : "text-blue-400"
           }`}
         >
-          Create Your StudyMate Account
+          Create Your ScholarStream Account
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit(onRegister)}>

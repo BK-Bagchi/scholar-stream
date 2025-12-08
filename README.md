@@ -1,6 +1,6 @@
-# 📘 StudyMate
+# 📘 ScholarStream
 
-StudyMate is a modern web application that helps students connect with the perfect study partners based on subjects, expertise level, and learning preferences. Whether you prefer solo focus sessions, group collaboration, or online discussions — StudyMate makes it easy to find, connect, and grow together.
+ScholarStream is a modern web application that helps students connect with the perfect study partners based on subjects, expertise level, and learning preferences. Whether you prefer solo focus sessions, group collaboration, or online discussions — ScholarStream makes it easy to find, connect, and grow together.
 
 ---
 

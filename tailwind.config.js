@@ -11,7 +11,7 @@ export default {
   daisyui: {
     themes: [
       {
-        studymate: {
+        ScholarStream: {
           primary: "#2563EB", // blue-600 — trust & focus
           secondary: "#22C55E", // green-500 — motivation & growth
           accent: "#FACC15", // yellow-400 — highlight
@@ -25,7 +25,7 @@ export default {
         },
       },
       {
-        "studymate-dark": {
+        "ScholarStream-dark": {
           primary: "#3B82F6", // blue-500 — calm focus
           secondary: "#10B981", // emerald-500 — soothing accent
           accent: "#FBBF24", // amber-400 — gentle contrast

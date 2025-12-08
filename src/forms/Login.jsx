@@ -55,7 +55,7 @@ const Login = () => {
             theme ? "text-blue-600" : "text-blue-400"
           }`}
         >
-          Login to StudyMate
+          Login to ScholarStream
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit(onLogin)}>

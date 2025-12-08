@@ -10,8 +10,9 @@ const Sidebar = ({ theme }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  // console.log(user);
 
-  const { name: userName, role: userRole, avatar: userAvatar } = user || {};
+  const { name: userName, role: userRole, photoURL: userAvatar } = user || {};
   const [activeRoute, setActiveRoute] = useState(location.pathname);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const Sidebar = ({ theme }) => {
   const getRoleLinks = () => {
     if (userRole === "ADMIN") return adminSidebarLinks;
     if (userRole === "MODERATOR") return moderatorSidebarLinks;
-    return adminSidebarLinks; // default student
+    return studentSidebarLinks; // default student
   };
   // console.log(userRole);
 

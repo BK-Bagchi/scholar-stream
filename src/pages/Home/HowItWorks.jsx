@@ -37,8 +37,8 @@ const HowItWorks = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 text-center text-white">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
         <p className="text-gray-100 mb-12 max-w-2xl mx-auto">
-          StudyMate makes it easy to find and collaborate with the best study
-          partners. Follow these simple steps to get started.
+          ScholarStream makes it easy to find and collaborate with the best
+          study partners. Follow these simple steps to get started.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
