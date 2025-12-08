@@ -4,6 +4,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { ApplicationAPI } from "../../api";
 import Loader from "../../components/Loader";
 import formatText from "../../utils/formatText";
+import ScholarshipDetails from "./Components/ScholarshipDetails";
 
 const ManageApplications = () => {
   const { theme } = useTheme();
@@ -23,7 +24,7 @@ const ManageApplications = () => {
     };
     fetchApplications();
   }, []);
-  // console.log(applications);
+  console.log(applications);
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -137,8 +138,10 @@ const ManageApplications = () => {
                         >
                           <option value="pending">Pending</option>
                           <option value="processing">Processing</option>
-                          <option value="completed">Completed</option>
-                          <option value="rejected">Rejected</option>
+                          <option value="approved">Approved</option>
+                          <option className="hidden" value="rejected">
+                            Rejected
+                          </option>
                         </select>
 
                         {/* Cancel */}
@@ -165,57 +168,10 @@ const ManageApplications = () => {
 
         {/* ---------------------- DETAILS MODAL ---------------------- */}
         {showDetailsModal && selectedApp && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div
-              className={`w-full max-w-lg rounded-xl p-6 border transition ${
-                theme
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-800 border-gray-700"
-              }`}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3
-                  className={`text-xl font-semibold ${
-                    theme ? "text-gray-800" : "text-gray-100"
-                  }`}
-                >
-                  Application Details
-                </h3>
-                <button
-                  onClick={() => setShowDetailsModal(false)}
-                  className="text-gray-400 hover:text-red-500"
-                >
-                  <X size={22} />
-                </button>
-              </div>
-
-              <div
-                className={`space-y-2 text-sm ${
-                  theme ? "text-gray-700" : "text-gray-300"
-                }`}
-              >
-                <p>
-                  <b>Applicant Name:</b> {selectedApp.userName}
-                </p>
-                <p>
-                  <b>Email:</b> {selectedApp.userEmail}
-                </p>
-                <p>
-                  <b>University:</b> {selectedApp.universityName}
-                </p>
-                <p>
-                  <b>Feedback:</b> {selectedApp.feedback || "N/A"}
-                </p>
-                <p>
-                  <b>Application Status:</b>{" "}
-                  {formatText(selectedApp.applicationStatus)}
-                </p>
-                <p>
-                  <b>Payment Status:</b> {formatText(selectedApp.paymentStatus)}
-                </p>
-              </div>
-            </div>
-          </div>
+          <ScholarshipDetails
+            selectedApp={selectedApp}
+            setShowDetailsModal={setShowDetailsModal}
+          />
         )}
 
         {/* ---------------------- FEEDBACK MODAL ---------------------- */}

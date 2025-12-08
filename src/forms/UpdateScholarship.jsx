@@ -45,7 +45,7 @@ const UpdateScholarship = ({
   });
 
   const onSubmit = async (data) => {
-    console.log("SCHOLARSHIP FORM DATA:", data);
+    // console.log("SCHOLARSHIP FORM DATA:", data);
 
     try {
       const res = await ScholarshipAPI.updateScholarship(scholarship._id, data);
