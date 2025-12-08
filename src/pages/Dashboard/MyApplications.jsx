@@ -233,7 +233,7 @@ const MyApplications = () => {
         {showReviewModal && selectedApp && (
           <Modal
             setActiveModal={setShowReviewModal}
-            render={<StudentReview selectedApp={selectedApp} />}
+            render={<StudentReview {...{ selectedApp, setShowReviewModal }} />}
           />
         )}
       </div>

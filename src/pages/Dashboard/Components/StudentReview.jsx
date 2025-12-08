@@ -1,7 +1,49 @@
+import { useState } from "react";
 import { useTheme } from "../../../hooks/useTheme";
+import { useAuth } from "../../../hooks/useAuth";
+import { ReviewAPI } from "../../../api";
+import { toast } from "react-toastify";
 
-const StudentReview = () => {
+const StudentReview = ({ selectedApp, setShowReviewModal }) => {
+  //   console.log(selectedApp);
   const { theme } = useTheme();
+  const { user } = useAuth();
+
+  const [rating, setRating] = useState(1);
+  const [comment, setComment] = useState("");
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    if (comment.trim().length < 5) {
+      setError("Review must be at least 5 characters long.");
+      return;
+    }
+    setError("");
+
+    const reviewData = {
+      scholarshipId: selectedApp._id,
+      universityName: selectedApp.universityName,
+      userName: user.name,
+      userEmail: user.email,
+      userImage: user.photoURL,
+      ratingPoint: rating,
+      reviewComment: comment,
+    };
+
+    // console.log("Review Submitted:", reviewData);
+    try {
+      const res = await ReviewAPI.addReview(reviewData);
+      toast.success(res.data.message);
+      setShowReviewModal(false);
+      setSubmitting(false);
+    } catch (error) {
+      console.error(error);
+      setError(error.response.data.message);
+    }
+  };
+
   return (
     <div
       className={`w-full max-w-lg rounded-xl p-6 border transition ${
@@ -27,18 +69,21 @@ const StudentReview = () => {
         >
           Rating (1–5 Stars)
         </p>
+
         <select
+          value={rating}
+          onChange={(e) => setRating(Number(e.target.value))}
           className={`w-full px-3 py-2 rounded-md border ${
             theme
               ? "bg-gray-100 border-gray-300 text-gray-800"
               : "bg-gray-700 border-gray-600 text-gray-100"
           }`}
         >
-          <option>1 Star</option>
-          <option>2 Stars</option>
-          <option>3 Stars</option>
-          <option>4 Stars</option>
-          <option>5 Stars</option>
+          <option value={1}>1 Star</option>
+          <option value={2}>2 Stars</option>
+          <option value={3}>3 Stars</option>
+          <option value={4}>4 Stars</option>
+          <option value={5}>5 Stars</option>
         </select>
       </div>
 
@@ -51,8 +96,11 @@ const StudentReview = () => {
         >
           Comment
         </p>
+
         <textarea
           rows={4}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           className={`w-full px-3 py-2 rounded-md border resize-none ${
             theme
               ? "bg-gray-100 border-gray-300 text-gray-800"
@@ -60,10 +108,16 @@ const StudentReview = () => {
           }`}
           placeholder="Write your review..."
         ></textarea>
+
+        {/* Validation Error */}
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
 
-      <button className="w-full py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">
-        Submit Review
+      <button
+        onClick={handleSubmit}
+        className="w-full py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+      >
+        {submitting ? "Submitting..." : "Submit Review"}
       </button>
     </div>
   );
