@@ -3,6 +3,7 @@ import { UserCog, Trash2, ChevronDown, Shield } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { ProfileAPI } from "../../api";
 import Loader from "../../components/Loader";
+import { toast } from "react-toastify";
 
 export default function ManageUsers() {
   const { theme } = useTheme();
@@ -29,8 +30,27 @@ export default function ManageUsers() {
       ? users
       : users.filter((u) => u.role.toLowerCase() === filter.toLowerCase());
 
-  const handleRoleChange = (userId, newRole) => {
-    console.log("Changing role for user:", userId, "to", newRole);
+  const handleRoleChange = async (userId, newRole) => {
+    const confirmation = window.confirm(
+      `Are you sure you want to change the role for user to ${newRole}?`
+    );
+    if (!confirmation) return;
+
+    try {
+      const res = await ProfileAPI.updateProfileRole(userId, { role: newRole });
+      toast.success(res.data.message);
+
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => {
+          if (user._id === userId) return { ...user, role: newRole };
+
+          return user;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   const handleDeleteUser = (userId) => {

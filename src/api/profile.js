@@ -5,3 +5,4 @@ export const getAllProfile = () => axios.get(`/profile/allProfile`);
 export const updateProfile = (id, data) => axios.put(`/profile/${id}`, data);
 export const updateProfileRole = (id, data) =>
   axios.put(`/profile/role/${id}`, data);
+export const deleteProfile = (id) => axios.delete(`/profile/${id}`);
