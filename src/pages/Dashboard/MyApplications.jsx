@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Eye, Pencil, Trash2, DollarSign, Star, X } from "lucide-react";
+import { toast } from "react-toastify";
 import { useTheme } from "../../hooks/useTheme";
 import { ApplicationAPI } from "../../api";
 import Loader from "../../components/Loader";
 import formatText from "../../utils/formatText";
+import Modal from "../../components/Modal";
+import ApplicationDetails from "./Components/ApplicationDetails";
+import StudentReview from "./Components/StudentReview";
 
 const MyApplications = () => {
   const { theme } = useTheme();
@@ -28,6 +32,21 @@ const MyApplications = () => {
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
+
+  const handleDeleteApplication = async (id) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this application?"
+    );
+    if (!confirmation) return;
+
+    try {
+      const res = await ApplicationAPI.deleteApplication(id);
+      toast.success(res.data.message);
+      setApplications((prev) => prev.filter((app) => app._id !== id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -167,7 +186,10 @@ const MyApplications = () => {
 
                         {/* Delete */}
                         {app.applicationStatus === "pending" && (
-                          <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600">
+                          <button
+                            className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600"
+                            onClick={() => handleDeleteApplication(app._id)}
+                          >
                             <Trash2 size={16} /> Delete
                           </button>
                         )}
@@ -201,133 +223,18 @@ const MyApplications = () => {
 
         {/* ---------------------- DETAILS MODAL ---------------------- */}
         {showDetailsModal && selectedApp && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div
-              className={`w-full max-w-lg rounded-xl p-6 border transition ${
-                theme
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-800 border-gray-700"
-              }`}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3
-                  className={`text-xl font-semibold ${
-                    theme ? "text-gray-800" : "text-gray-100"
-                  }`}
-                >
-                  Application Details
-                </h3>
-                <button
-                  onClick={() => setShowDetailsModal(false)}
-                  className="text-gray-400 hover:text-red-500"
-                >
-                  <X size={22} />
-                </button>
-              </div>
-
-              <div
-                className={`space-y-2 text-sm ${
-                  theme ? "text-gray-700" : "text-gray-300"
-                }`}
-              >
-                <p>
-                  <b>University:</b> {selectedApp.universityName}
-                </p>
-                <p>
-                  <b>Address:</b> {selectedApp.universityAddress}
-                </p>
-                <p>
-                  <b>Subject:</b> {selectedApp.subjectCategory}
-                </p>
-                <p>
-                  <b>Application Fees:</b> {selectedApp.applicationFees}
-                </p>
-                <p>
-                  <b>Status:</b> {selectedApp.applicationStatus}
-                </p>
-                <p>
-                  <b>Feedback:</b> {selectedApp.feedback}
-                </p>
-              </div>
-            </div>
-          </div>
+          <Modal
+            setActiveModal={setShowDetailsModal}
+            render={<ApplicationDetails selectedApp={selectedApp} />}
+          />
         )}
 
         {/* ---------------------- REVIEW MODAL ---------------------- */}
         {showReviewModal && selectedApp && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div
-              className={`w-full max-w-lg rounded-xl p-6 border transition ${
-                theme
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-800 border-gray-700"
-              }`}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3
-                  className={`text-xl font-semibold ${
-                    theme ? "text-gray-800" : "text-gray-100"
-                  }`}
-                >
-                  Add Review
-                </h3>
-                <button
-                  onClick={() => setShowReviewModal(false)}
-                  className="text-gray-400 hover:text-red-500"
-                >
-                  <X size={22} />
-                </button>
-              </div>
-
-              {/* Rating */}
-              <div className="mb-4">
-                <p
-                  className={`text-sm mb-2 ${
-                    theme ? "text-gray-700" : "text-gray-300"
-                  }`}
-                >
-                  Rating (1–5 Stars)
-                </p>
-                <select
-                  className={`w-full px-3 py-2 rounded-md border ${
-                    theme
-                      ? "bg-gray-100 border-gray-300 text-gray-800"
-                      : "bg-gray-700 border-gray-600 text-gray-100"
-                  }`}
-                >
-                  <option>1 Star</option>
-                  <option>2 Stars</option>
-                  <option>3 Stars</option>
-                  <option>4 Stars</option>
-                  <option>5 Stars</option>
-                </select>
-              </div>
-
-              {/* Comment */}
-              <div className="mb-4">
-                <p
-                  className={`text-sm mb-2 ${
-                    theme ? "text-gray-700" : "text-gray-300"
-                  }`}
-                >
-                  Comment
-                </p>
-                <textarea
-                  rows={4}
-                  className={`w-full px-3 py-2 rounded-md border resize-none ${
-                    theme
-                      ? "bg-gray-100 border-gray-300 text-gray-800"
-                      : "bg-gray-700 border-gray-600 text-gray-100"
-                  }`}
-                  placeholder="Write your review..."
-                ></textarea>
-              </div>
-
-              <button className="w-full py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                Submit Review
-              </button>
-            </div>
-          </div>
+          <Modal
+            setActiveModal={setShowReviewModal}
+            render={<StudentReview selectedApp={selectedApp} />}
+          />
         )}
       </div>
     </div>

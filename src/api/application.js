@@ -7,3 +7,5 @@ export const updateApplication = (id, data) =>
   axios.put(`/application/update/${id}`, data);
 export const updateApplicationStatus = (id, data) =>
   axios.patch(`/application/update-status/${id}`, data);
+export const deleteApplication = (id) =>
+  axios.delete(`/application/delete/${id}`);
