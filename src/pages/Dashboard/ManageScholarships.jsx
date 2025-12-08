@@ -3,11 +3,16 @@ import { Pencil, Trash2, School } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { ScholarshipAPI } from "../../api";
 import Loader from "../../components/Loader";
+import Modal from "../../components/Modal";
+import UpdateScholarship from "../../forms/UpdateScholarship";
+import { toast } from "react-toastify";
 
 const ManageScholarships = () => {
   const { theme } = useTheme();
   const [scholarships, setScholarships] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updateScholarship, setUpdateScholarship] = useState(null);
+  const [updateScholarshipModal, setUpdateScholarshipModal] = useState(false);
 
   useEffect(() => {
     const fetchScholarships = async () => {
@@ -24,6 +29,23 @@ const ManageScholarships = () => {
     fetchScholarships();
   }, []);
   // console.log(scholarships);
+
+  const handleDeleteScholarship = async (id) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this scholarship?"
+    );
+    if (!confirmation) return;
+
+    try {
+      const res = await ScholarshipAPI.deleteScholarship(id);
+      toast.success(res.data.message);
+
+      setScholarships((prev) => prev.filter((sch) => sch._id !== id));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <div
@@ -119,6 +141,10 @@ const ManageScholarships = () => {
                                 ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
                                 : "bg-blue-900 text-blue-300 hover:bg-blue-800"
                             }`}
+                            onClick={() => {
+                              setUpdateScholarship(sch);
+                              setUpdateScholarshipModal(true);
+                            }}
                           >
                             <Pencil size={16} />
                             Update
@@ -131,6 +157,7 @@ const ManageScholarships = () => {
                                 ? "bg-red-100 text-red-700 hover:bg-red-200"
                                 : "bg-red-900 text-red-300 hover:bg-red-800"
                             }`}
+                            onClick={() => handleDeleteScholarship(sch._id)}
                           >
                             <Trash2 size={16} />
                             Delete
@@ -151,6 +178,12 @@ const ManageScholarships = () => {
           )}
         </div>
       </div>
+      {updateScholarshipModal && (
+        <Modal
+          render={<UpdateScholarship scholarship={updateScholarship} />}
+          setActiveModal={setUpdateScholarshipModal}
+        />
+      )}
     </div>
   );
 };
