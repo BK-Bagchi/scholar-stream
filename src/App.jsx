@@ -41,30 +41,30 @@ function App() {
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/payment/failed" element={<PaymentFailed />} />
               <Route path="/checkout" element={<NotFound />} />
+
+              <Route path="dashboard" element={<Dashboard />}>
+                <Route index element={<MyProfile />} />
+
+                {/* for admin */}
+                <Route path="add-scholarship" element={<AddScholarship />} />
+                {/* prettier-ignore */}
+                <Route path="manage-scholarships" element={<ManageScholarships />} />
+                <Route path="manage-users" element={<ManageUsers />} />
+                <Route path="analytics" element={<Analytics />} />
+
+                {/* for moderator */}
+                {/* prettier-ignore */}
+                <Route path="manage-applications" element={<ManageApplications />} />
+                <Route path="all-reviews" element={<AllReviews />} />
+
+                {/* for student */}
+                <Route path="my-applications" element={<MyApplications />} />
+                <Route path="my-reviews" element={<MyReviews />} />
+
+                <Route path="*" element={<NotFound />} />
+              </Route>
             </Route>
             <Route path="*" element={<NotFound />} />
-          </Route>
-
-          {/* Login protected routes */}
-          <Route element={<PrivateRoute />}>
-            <Route path="dashboard" element={<Dashboard />}>
-              <Route index element={<MyProfile />} />
-
-              <Route path="add-scholarship" element={<AddScholarship />} />
-              {/* prettier-ignore */}
-              <Route path="manage-scholarships" element={<ManageScholarships />} />
-              <Route path="manage-users" element={<ManageUsers />} />
-              <Route path="analytics" element={<Analytics />} />
-
-              {/* prettier-ignore */}
-              <Route path="manage-applications" element={<ManageApplications />} />
-              <Route path="all-reviews" element={<AllReviews />} />
-
-              <Route path="my-applications" element={<MyApplications />} />
-              <Route path="my-reviews" element={<MyReviews />} />
-
-              <Route path="*" element={<NotFound />} />
-            </Route>
           </Route>
         </Routes>
       </ThemeProvider>
