@@ -4,17 +4,21 @@ import { useTheme } from "../../../hooks/useTheme";
 import { useAuth } from "../../../hooks/useAuth";
 import { ReviewAPI } from "../../../api";
 
-const StudentReview = ({ selectedApp, setShowReviewModal }) => {
-  //   console.log(selectedApp);
+const StudentReviewEdit = ({
+  setReviews,
+  selectedReview,
+  setShowEditModal,
+}) => {
+  //   console.log(selectedReview);
   const { theme } = useTheme();
   const { user } = useAuth();
 
-  const [rating, setRating] = useState(1);
-  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(selectedReview.ratingPoint);
+  const [comment, setComment] = useState(selectedReview.reviewComment);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleUpdate = async () => {
     setSubmitting(true);
     if (comment.trim().length < 5) {
       setError("Review must be at least 5 characters long.");
@@ -23,8 +27,8 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
     setError("");
 
     const reviewData = {
-      scholarshipId: selectedApp._id,
-      universityName: selectedApp.universityName,
+      scholarshipId: selectedReview._id,
+      universityName: selectedReview.universityName,
       userName: user.name,
       userEmail: user.email,
       userImage: user.photoURL,
@@ -34,9 +38,14 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
 
     // console.log("Review Submitted:", reviewData);
     try {
-      const res = await ReviewAPI.addReview(reviewData);
+      const res = await ReviewAPI.updateReview(selectedReview._id, reviewData);
       toast.success(res.data.message);
-      setShowReviewModal(false);
+      setReviews((prev) =>
+        prev.map((rev) =>
+          rev._id === selectedReview._id ? res.data.review : rev
+        )
+      );
+      setShowEditModal(false);
       setSubmitting(false);
     } catch (error) {
       console.error(error);
@@ -114,13 +123,13 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
       </div>
 
       <button
-        onClick={handleSubmit}
+        onClick={handleUpdate}
         className="w-full py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
       >
-        {submitting ? "Submitting..." : "Submit Review"}
+        {submitting ? "Updating..." : "Update Review"}
       </button>
     </div>
   );
 };
 
-export default StudentReview;
+export default StudentReviewEdit;

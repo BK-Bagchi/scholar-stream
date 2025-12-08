@@ -3,6 +3,8 @@ import { Pencil, Trash2, Star, X } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { ReviewAPI } from "../../api";
 import Loader from "../../components/Loader";
+import Modal from "../../components/Modal";
+import StudentReviewEdit from "./Components/StudentReviewEdit";
 
 const MyReviews = () => {
   const { theme } = useTheme();
@@ -153,8 +155,18 @@ const MyReviews = () => {
 
         {/* KEEP YOUR EDIT + DELETE MODALS BELOW */}
         {showEditModal && selectedReview && (
-          /* your existing edit modal code */
-          <></>
+          <Modal
+            setActiveModal={setShowEditModal}
+            render={
+              <StudentReviewEdit
+                {...{
+                  setReviews,
+                  selectedReview,
+                  setShowEditModal,
+                }}
+              />
+            }
+          />
         )}
 
         {showDeleteModal && selectedReview && (
