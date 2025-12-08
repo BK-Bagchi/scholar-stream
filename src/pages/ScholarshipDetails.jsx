@@ -1,26 +1,37 @@
-import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+//prettier-ignore
+import { Star, Globe, Calendar, MapPin, BadgeDollarSign, GraduationCap, Layers, Badge, LibraryBig } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
+import { ScholarshipAPI } from "../api";
+import Loader from "../components/Loader";
 
 const ScholarshipDetails = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  // Placeholder scholarship data
-  const scholarship = {
-    id: 1,
-    name: "Stanford Global Excellence Scholarship",
-    university: "Stanford University",
-    worldRank: 3,
-    deadline: "March 20, 2025",
-    location: "California, USA",
-    fee: 50,
-    stipend: "$2000 / month + accommodation",
-    description:
-      "The Stanford Global Excellence Scholarship is awarded to outstanding international students who demonstrate exceptional academic merit and leadership potential.",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/4/46/Stanford_University_campus_from_above.jpg",
-  };
+  const [scholarships, setScholarships] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchScholarships = async () => {
+      try {
+        const res = await ScholarshipAPI.getAllScholarships();
+        setScholarships(res.data.scholarships);
+      } catch (error) {
+        console.error(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScholarships();
+  }, []);
+  // console.log(scholarships);
+
+  const scholarship = scholarships.find((s) => s._id === id);
+  // console.log(scholarship);
 
   // Placeholder reviews
   const reviews = [
@@ -57,99 +68,188 @@ const ScholarshipDetails = () => {
         </h2>
 
         {/* Main Card */}
-        <div
-          className={`rounded-xl p-6 border mb-10 transition shadow-sm ${
-            theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
-          }`}
-        >
-          {/* Image */}
-          <img
-            src={scholarship.image}
-            alt={scholarship.university}
-            className="rounded-lg w-full h-64 object-cover mb-6"
-          />
-
-          {/* Title */}
-          <h3
-            className={`text-2xl font-bold mb-2 ${
-              theme ? "text-gray-900" : "text-white"
+        {loading ? (
+          <Loader />
+        ) : scholarships.length > 0 ? (
+          <div
+            className={`rounded-2xl p-6 border mb-10 transition-all shadow-md hover:shadow-lg ${
+              theme ? "bg-white border-gray-300" : "bg-gray-900 border-gray-700"
             }`}
           >
-            {scholarship.name}
-          </h3>
+            {/* Top Image */}
+            <div className="relative w-full h-64 mb-6">
+              <img
+                src={scholarship.universityImage}
+                alt={scholarship.universityName}
+                className="rounded-xl w-full h-full object-cover"
+              />
+              <span className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow">
+                {scholarship.scholarshipCategory}
+              </span>
+            </div>
 
-          {/* University */}
-          <p
-            className={`text-lg mb-3 ${
-              theme ? "text-gray-700" : "text-gray-300"
-            }`}
-          >
-            {scholarship.university}
-          </p>
-
-          {/* Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              🌍 <span className="font-semibold">World Rank:</span>{" "}
-              {scholarship.worldRank}
-            </p>
-
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              📅 <span className="font-semibold">Deadline:</span>{" "}
-              {scholarship.deadline}
-            </p>
-
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              📍 <span className="font-semibold">Location:</span>{" "}
-              {scholarship.location}
-            </p>
-
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              💵 <span className="font-semibold">Application Fee:</span>{" "}
-              {scholarship.fee > 0 ? `$${scholarship.fee}` : "Free"}
-            </p>
-          </div>
-
-          {/* Description */}
-          <div className="mb-6">
-            <h4
-              className={`text-lg font-semibold mb-2 ${
+            {/* Title */}
+            <h3
+              className={`text-3xl font-bold mb-1 ${
                 theme ? "text-gray-900" : "text-white"
               }`}
             >
-              Scholarship Description
-            </h4>
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              {scholarship.description}
-            </p>
-          </div>
+              {scholarship.scholarshipName}
+            </h3>
 
-          {/* Stipend */}
-          <div className="mb-6">
-            <h4
-              className={`text-lg font-semibold mb-2 ${
-                theme ? "text-gray-900" : "text-white"
+            {/* University */}
+            <p
+              className={`flex items-center gap-1 text-lg mb-4 ${
+                theme ? "text-blue-600" : "text-blue-400"
               }`}
             >
-              Coverage / Stipend
-            </h4>
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              {scholarship.stipend}
+              <LibraryBig size={20} />
+              {scholarship.universityName}
+            </p>
+
+            {/* Info Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-base">
+              {/* World Rank */}
+              <p
+                className={`flex items-center gap-1 ${
+                  theme ? "text-blue-600" : "text-blue-400"
+                }`}
+              >
+                <Globe size={18} />
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">World Rank:</span>{" "}
+                  {scholarship.universityWorldRank}
+                </span>
+              </p>
+
+              {/* Deadline */}
+              <p
+                className={`flex items-center gap-1 ${
+                  theme ? "text-blue-600" : "text-blue-400"
+                }`}
+              >
+                <Calendar size={18} />
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">Deadline:</span>{" "}
+                  {new Date(
+                    scholarship.applicationDeadline
+                  ).toLocaleDateString()}
+                </span>
+              </p>
+
+              {/* Location */}
+              <p
+                className={`flex items-center gap-1 ${
+                  theme ? "text-blue-600" : "text-blue-400"
+                }`}
+              >
+                <MapPin size={18} />
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">Location:</span>{" "}
+                  {scholarship.universityCity}, {scholarship.universityCountry}
+                </span>
+              </p>
+
+              {/* Application Fee */}
+              <p
+                className={`flex items-center gap-1 ${
+                  theme ? "text-blue-600" : "text-blue-400"
+                }`}
+              >
+                <BadgeDollarSign size={18} />
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">Application Fee:</span>{" "}
+                  {scholarship.applicationFees > 0
+                    ? `$${scholarship.applicationFees}`
+                    : "Free"}
+                </span>
+              </p>
+
+              {/* Degree */}
+              <p
+                className={`flex items-center gap-1 ${
+                  theme ? "text-blue-600" : "text-blue-400"
+                }`}
+              >
+                <GraduationCap size={18} />
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">Degree:</span>{" "}
+                  {scholarship.degree}
+                </span>
+              </p>
+
+              {/* Subject */}
+              <p
+                className={`flex items-center gap-1 ${
+                  theme ? "text-blue-600" : "text-blue-400"
+                }`}
+              >
+                <Layers size={18} />
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">Subject:</span>{" "}
+                  {scholarship.subjectCategory}
+                </span>
+              </p>
+            </div>
+
+            {/* Tuition & Charges */}
+            <div
+              className={`p-4 rounded-xl border ${
+                theme
+                  ? "bg-gray-50 border-gray-300"
+                  : "bg-gray-800 border-gray-700"
+              } mb-6`}
+            >
+              <h4
+                className={`text-lg font-semibold mb-2 ${
+                  theme ? "text-gray-900" : "text-white"
+                }`}
+              >
+                Fees & Coverage
+              </h4>
+
+              <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
+                <span className="font-semibold">Tuition Fees:</span> $
+                {scholarship.tuitionFees}
+              </p>
+
+              <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
+                <span className="font-semibold">Service Charge:</span> $
+                {scholarship.serviceCharge}
+              </p>
+            </div>
+
+            {/* Apply Button */}
+            <button
+              onClick={() => navigate(`/checkout/${scholarship._id}`)}
+              className={`w-full py-3 text-center rounded-xl font-semibold transition-all text-white shadow ${
+                theme
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+            >
+              Apply for Scholarship
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-screen">
+            <p className="text-2xl font-semibold text-gray-700">
+              No scholarships found.
             </p>
           </div>
-
-          {/* Apply Button */}
-          <button
-            onClick={() => navigate(`/checkout/${scholarship.id}`)}
-            className={`w-full py-3 text-center mt-4 rounded-lg font-semibold transition ${
-              theme
-                ? "bg-blue-600 text-white hover:bg-blue-700"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-          >
-            Apply for Scholarship
-          </button>
-        </div>
+        )}
 
         {/* Reviews Section */}
         <div
