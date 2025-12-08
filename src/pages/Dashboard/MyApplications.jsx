@@ -3,6 +3,7 @@ import { Eye, Pencil, Trash2, DollarSign, Star, X } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { ApplicationAPI } from "../../api";
 import Loader from "../../components/Loader";
+import formatText from "../../utils/formatText";
 
 const MyApplications = () => {
   const { theme } = useTheme();
@@ -64,7 +65,7 @@ const MyApplications = () => {
                   <th className="p-4">Degree</th>
                   <th className="p-4">Category</th>
                   <th className="p-4">Fees</th>
-                  <th className="p-4">Status</th>
+                  <th className="p-4">Application</th>
                   <th className="p-4">Payment</th>
                   <th className="p-4">Applied</th>
                   <th className="p-4">Actions</th>
@@ -114,12 +115,12 @@ const MyApplications = () => {
                               : "bg-yellow-500/20 text-yellow-600"
                           }`}
                         >
-                          {app.applicationStatus}
+                          {formatText(app.applicationStatus)}
                         </span>
                       </td>
 
                       {/* Payment Status */}
-                      <td className="p-4 capitalize">
+                      <td className="p-4">
                         <span
                           className={`px-2 py-1 rounded-md text-xs font-semibold ${
                             app.paymentStatus === "paid"
@@ -127,7 +128,7 @@ const MyApplications = () => {
                               : "bg-red-500/20 text-red-600"
                           }`}
                         >
-                          {app.paymentStatus}
+                          {formatText(app.paymentStatus)}
                         </span>
                       </td>
 
@@ -150,32 +151,39 @@ const MyApplications = () => {
                         </button>
 
                         {/* Edit */}
-                        <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
-                          <Pencil size={16} /> Edit
-                        </button>
-
-                        {/* Pay */}
-                        {app.paymentStatus === "unpaid" && (
-                          <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-green-500 text-white hover:bg-green-600">
-                            <DollarSign size={16} /> Pay
+                        {app.applicationStatus === "pending" && (
+                          <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
+                            <Pencil size={16} /> Edit
                           </button>
                         )}
 
+                        {/* Pay */}
+                        {app.applicationStatus === "pending" &&
+                          app.paymentStatus === "unpaid" && (
+                            <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-green-500 text-white hover:bg-green-600">
+                              <DollarSign size={16} /> Pay
+                            </button>
+                          )}
+
                         {/* Delete */}
-                        <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600">
-                          <Trash2 size={16} /> Delete
-                        </button>
+                        {app.applicationStatus === "pending" && (
+                          <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600">
+                            <Trash2 size={16} /> Delete
+                          </button>
+                        )}
 
                         {/* Review */}
-                        <button
-                          onClick={() => {
-                            setSelectedApp(app);
-                            setShowReviewModal(true);
-                          }}
-                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-purple-500 text-white hover:bg-purple-600"
-                        >
-                          <Star size={16} /> Review
-                        </button>
+                        {app.applicationStatus === "pending" && (
+                          <button
+                            onClick={() => {
+                              setSelectedApp(app);
+                              setShowReviewModal(true);
+                            }}
+                            className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-purple-500 text-white hover:bg-purple-600"
+                          >
+                            <Star size={16} /> Review
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))
