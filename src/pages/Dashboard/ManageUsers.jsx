@@ -4,6 +4,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { ProfileAPI } from "../../api";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
+import formatText from "../../utils/formatText";
 
 export default function ManageUsers() {
   const { theme } = useTheme();
@@ -53,8 +54,22 @@ export default function ManageUsers() {
     }
   };
 
-  const handleDeleteUser = (userId) => {
+  const handleDeleteUser = async (userId) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (!confirmation) return;
+
     console.log("Deleting user:", userId);
+    try {
+      const res = await ProfileAPI.deleteProfile(userId);
+      toast.success(res.data.message);
+
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -130,7 +145,9 @@ export default function ManageUsers() {
                   >
                     <td className="py-3 px-4">{user.name}</td>
                     <td className="py-3 px-4 opacity-80">{user.email}</td>
-                    <td className="py-3 px-4 font-semibold">{user.role}</td>
+                    <td className="py-3 px-4 font-semibold">
+                      {formatText(user.role)}
+                    </td>
 
                     <td className="py-3 px-4">
                       <div className="flex gap-3 items-center">
