@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 //prettier-ignore
 import { Star, Globe, Calendar, MapPin, BadgeDollarSign, GraduationCap, Layers, Badge, LibraryBig } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
-import { ApplicationAPI, ScholarshipAPI } from "../api";
+import { ApplicationAPI, ReviewAPI, ScholarshipAPI } from "../api";
 import Loader from "../components/Loader";
-import { toast } from "react-toastify";
 
 const ScholarshipDetails = () => {
   const { user } = useAuth();
@@ -16,7 +16,9 @@ const ScholarshipDetails = () => {
   const { id } = useParams();
 
   const [scholarships, setScholarships] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reviewLoading, setReviewLoading] = useState(true);
 
   useEffect(() => {
     const fetchScholarships = async () => {
@@ -30,34 +32,27 @@ const ScholarshipDetails = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const res = await ReviewAPI.getReviews();
+        setReviews(res.data.reviews);
+      } catch (error) {
+        console.error(error.response.data.message);
+      } finally {
+        setReviewLoading(false);
+      }
+    };
+
     fetchScholarships();
+    fetchReviews();
   }, []);
   // console.log(scholarships);
+  // console.log(reviews);
+
+  const filterReviews = reviews.filter((rev) => rev.scholarshipId === id);
 
   const scholarship = scholarships.find((s) => s._id === id);
   // console.log(scholarship);
-
-  // Placeholder reviews
-  const reviews = [
-    {
-      id: 1,
-      reviewer: "John Carter",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-      date: "Feb 10, 2025",
-      rating: 5,
-      comment:
-        "Amazing scholarship opportunity! The stipend and campus support are excellent.",
-    },
-    {
-      id: 2,
-      reviewer: "Emma Watson",
-      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      date: "Jan 25, 2025",
-      rating: 4,
-      comment:
-        "Great experience overall, but the application process was competitive.",
-    },
-  ];
 
   const handleApplication = async (scholarship) => {
     const confirmation = window.confirm("Are you sure you want to apply?");
@@ -295,15 +290,13 @@ const ScholarshipDetails = () => {
             Reviews
           </h3>
 
-          {reviews.length === 0 ? (
-            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-              No reviews yet.
-            </p>
-          ) : (
-            <div className="flex flex-col gap-4">
-              {reviews.map((rev) => (
+          {reviewLoading ? (
+            <Loader />
+          ) : filterReviews.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filterReviews.map((rev) => (
                 <div
-                  key={rev.id}
+                  key={rev._id}
                   className={`p-4 rounded-lg border transition ${
                     theme
                       ? "bg-white border-gray-300 hover:border-blue-300"
@@ -311,33 +304,49 @@ const ScholarshipDetails = () => {
                   }`}
                 >
                   {/* Reviewer Info */}
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-3 mb-3">
                     <img
-                      src={rev.avatar}
-                      alt={rev.reviewer}
-                      className="w-10 h-10 rounded-full object-cover"
+                      src={rev.userImage}
+                      alt={rev.userName}
+                      className="w-10 h-10 rounded-full object-cover border"
                     />
+
                     <div>
                       <p
                         className={`font-semibold ${
                           theme ? "text-gray-900" : "text-white"
                         }`}
                       >
-                        {rev.reviewer}
+                        {rev.userName}
                       </p>
+
                       <p
                         className={`text-sm ${
                           theme ? "text-gray-500" : "text-gray-400"
                         }`}
                       >
-                        {rev.date}
+                        {new Date(rev.reviewDate).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
 
+                  {/* University */}
+                  <p
+                    className={`text-sm font-medium mb-2 ${
+                      theme ? "text-gray-700" : "text-gray-300"
+                    }`}
+                  >
+                    University:{" "}
+                    <span
+                      className={`${theme ? "text-gray-900" : "text-gray-100"}`}
+                    >
+                      {rev.universityName}
+                    </span>
+                  </p>
+
                   {/* Rating */}
                   <div className="flex items-center gap-1 mb-2">
-                    {[...Array(rev.rating)].map((_, i) => (
+                    {[...Array(rev.ratingPoint)].map((_, i) => (
                       <Star
                         key={i}
                         size={16}
@@ -348,11 +357,15 @@ const ScholarshipDetails = () => {
 
                   {/* Comment */}
                   <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-                    {rev.comment}
+                    {rev.reviewComment}
                   </p>
                 </div>
               ))}
             </div>
+          ) : (
+            <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
+              No reviews yet.
+            </p>
           )}
         </div>
       </div>

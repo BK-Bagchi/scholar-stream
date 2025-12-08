@@ -23,7 +23,7 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
     setError("");
 
     const reviewData = {
-      scholarshipId: selectedApp._id,
+      scholarshipId: selectedApp.scholarshipId,
       universityName: selectedApp.universityName,
       userName: user.name,
       userEmail: user.email,
