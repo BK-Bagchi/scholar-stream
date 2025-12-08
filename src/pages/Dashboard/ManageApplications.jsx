@@ -4,7 +4,9 @@ import { useTheme } from "../../hooks/useTheme";
 import { ApplicationAPI } from "../../api";
 import Loader from "../../components/Loader";
 import formatText from "../../utils/formatText";
+import Modal from "../../components/Modal";
 import ScholarshipDetails from "./Components/ScholarshipDetails";
+import SendFeedback from "./Components/SendFeedback";
 
 const ManageApplications = () => {
   const { theme } = useTheme();
@@ -24,7 +26,7 @@ const ManageApplications = () => {
     };
     fetchApplications();
   }, []);
-  console.log(applications);
+  // console.log(applications);
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -168,53 +170,22 @@ const ManageApplications = () => {
 
         {/* ---------------------- DETAILS MODAL ---------------------- */}
         {showDetailsModal && selectedApp && (
-          <ScholarshipDetails
-            selectedApp={selectedApp}
-            setShowDetailsModal={setShowDetailsModal}
+          <Modal
+            setActiveModal={setShowDetailsModal}
+            render={<ScholarshipDetails selectedApp={selectedApp} />}
           />
         )}
 
         {/* ---------------------- FEEDBACK MODAL ---------------------- */}
         {showFeedbackModal && selectedApp && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div
-              className={`w-full max-w-lg rounded-xl p-6 border transition ${
-                theme
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-800 border-gray-700"
-              }`}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3
-                  className={`text-xl font-semibold ${
-                    theme ? "text-gray-800" : "text-gray-100"
-                  }`}
-                >
-                  Write Feedback
-                </h3>
-                <button
-                  onClick={() => setShowFeedbackModal(false)}
-                  className="text-gray-400 hover:text-red-500"
-                >
-                  <X size={22} />
-                </button>
-              </div>
-
-              <textarea
-                rows={4}
-                className={`w-full px-3 py-2 rounded-md border resize-none ${
-                  theme
-                    ? "bg-gray-100 border-gray-300 text-gray-800"
-                    : "bg-gray-700 border-gray-600 text-gray-100"
-                }`}
-                placeholder="Write your feedback..."
-              ></textarea>
-
-              <button className="w-full py-2 mt-4 rounded-md bg-purple-600 text-white hover:bg-purple-700">
-                Submit Feedback
-              </button>
-            </div>
-          </div>
+          <Modal
+            setActiveModal={setShowFeedbackModal}
+            render={
+              <SendFeedback
+                {...{ selectedApp, setApplications, setShowFeedbackModal }}
+              />
+            }
+          />
         )}
       </div>
     </div>
