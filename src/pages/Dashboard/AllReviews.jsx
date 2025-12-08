@@ -1,36 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Trash2, Star, X } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { ReviewAPI } from "../../api";
+import Loader from "../../components/Loader";
+import { toast } from "react-toastify";
 
 const AllReviews = () => {
   const { theme } = useTheme();
-  // Placeholder data
-  const reviews = [
-    {
-      id: 1,
-      scholarshipName: "Harvard Full Scholarship",
-      universityName: "Harvard University",
-      reviewerName: "John Doe",
-      reviewerEmail: "john@example.com",
-      reviewComment: "Excellent scholarship program!",
-      reviewDate: "2024-11-12",
-      ratingPoint: 5,
-    },
-    {
-      id: 2,
-      scholarshipName: "Toronto Engineering Scholarship",
-      universityName: "University of Toronto",
-      reviewerName: "Jane Smith",
-      reviewerEmail: "jane@example.com",
-      reviewComment: "Very competitive but fair process.",
-      reviewDate: "2024-12-01",
-      ratingPoint: 4,
-    },
-  ];
 
-  const [selectedReview, setSelectedReview] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await ReviewAPI.getReviews();
+        setReviews(res.data.reviews);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchReviews();
+  }, []);
+  console.log(reviews);
+
+  const handleDelete = async (id) => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this review?"
+    );
+    if (!confirmation) return;
+
+    try {
+      const res = await ReviewAPI.deleteReview(id);
+      toast.success(res.data.message);
+      setReviews((prev) => prev.filter((rev) => rev._id !== id));
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div
       className={`py-10 min-h-screen transition ${
@@ -46,118 +56,133 @@ const AllReviews = () => {
           All Reviews
         </h2>
 
-        <div
-          className={`overflow-x-auto rounded-xl border transition ${
-            theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
-          }`}
-        >
-          <table className="w-full">
-            <thead
-              className={`text-left text-sm ${
-                theme
-                  ? "bg-gray-200 text-gray-700"
-                  : "bg-gray-700 text-gray-200"
-              }`}
-            >
-              <tr>
-                <th className="p-4">Scholarship</th>
-                <th className="p-4">University</th>
-                <th className="p-4">Reviewer</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">Comment</th>
-                <th className="p-4">Date</th>
-                <th className="p-4">Rating</th>
-                <th className="p-4">Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {reviews.map((rev) => (
-                <tr
-                  key={rev.id}
-                  className={`text-sm border-t transition ${
+        {loading ? (
+          <Loader />
+        ) : (
+          <div
+            className={`grid gap-6 md:grid-cols-2 lg:grid-cols-3 transition`}
+          >
+            {reviews.length > 0 ? (
+              reviews.map((rev) => (
+                <div
+                  key={rev._id}
+                  className={`rounded-xl p-5 border shadow-sm transition ${
                     theme
-                      ? "border-gray-300 hover:bg-gray-100"
-                      : "border-gray-700 hover:bg-gray-700/40"
+                      ? "bg-white border-gray-300 hover:shadow-md"
+                      : "bg-gray-800 border-gray-700 hover:shadow-lg"
                   }`}
                 >
-                  <td className="p-4">{rev.scholarshipName}</td>
-                  <td className="p-4">{rev.universityName}</td>
-                  <td className="p-4">{rev.reviewerName}</td>
-                  <td className="p-4">{rev.reviewerEmail}</td>
-                  <td className="p-4">{rev.reviewComment}</td>
-                  <td className="p-4">{rev.reviewDate}</td>
-                  <td className="p-4 flex items-center gap-1">
-                    {rev.ratingPoint}
-                    <Star size={16} className="text-yellow-400" />
-                  </td>
-                  <td className="p-4">
-                    {/* Delete Button */}
-                    <button
-                      onClick={() => {
-                        setSelectedReview(rev);
-                        setShowDeleteModal(true);
-                      }}
-                      className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600"
+                  {/* User Section */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <img
+                      src={rev.userImage}
+                      alt={rev.userName}
+                      className="w-12 h-12 rounded-full object-cover border"
+                    />
+                    <div>
+                      <p
+                        className={`font-semibold ${
+                          theme ? "text-gray-800" : "text-gray-100"
+                        }`}
+                      >
+                        {rev.userName}
+                      </p>
+                      <p
+                        className={`text-sm ${
+                          theme ? "text-gray-600" : "text-gray-400"
+                        }`}
+                      >
+                        {rev.userEmail}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Scholarship Info */}
+                  <div className="mb-3 flex gap-3 items-center">
+                    <p
+                      className={`text-sm font-semibold ${
+                        theme ? "text-gray-600" : "text-gray-400"
+                      }`}
                     >
-                      <Trash2 size={16} /> Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      Scholarshipp
+                    </p>
+                    <p
+                      className={`text-sm ${
+                        theme ? "text-gray-800" : "text-gray-200"
+                      }`}
+                    >
+                      {rev.scholarshipName || "N/A"}
+                    </p>
+                  </div>
 
-        {/* ---------------------- DELETE MODAL ---------------------- */}
-        {showDeleteModal && selectedReview && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div
-              className={`w-full max-w-md rounded-xl p-6 border transition ${
-                theme
-                  ? "bg-white border-gray-300"
-                  : "bg-gray-800 border-gray-700"
-              }`}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3
-                  className={`text-xl font-semibold ${
-                    theme ? "text-gray-800" : "text-gray-100"
-                  }`}
-                >
-                  Delete Review?
-                </h3>
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="text-gray-400 hover:text-red-500"
-                >
-                  <X size={22} />
-                </button>
-              </div>
+                  {/* University */}
+                  <div className="mb-3 flex gap-3 items-center">
+                    <p
+                      className={`text-sm font-semibold ${
+                        theme ? "text-gray-600" : "text-gray-400"
+                      }`}
+                    >
+                      University
+                    </p>
+                    <p
+                      className={`text-sm ${
+                        theme ? "text-gray-800" : "text-gray-200"
+                      }`}
+                    >
+                      {rev.universityName}
+                    </p>
+                  </div>
 
-              <p
-                className={`text-sm mb-6 ${
-                  theme ? "text-gray-700" : "text-gray-300"
-                }`}
-              >
-                Are you sure you want to delete the review by{" "}
-                <b>{selectedReview.reviewerName}</b> for{" "}
-                <b>{selectedReview.scholarshipName}</b>?
+                  {/* Comment */}
+                  <div className="mb-3 flex gap-3">
+                    <p
+                      className={`text-sm font-semibold ${
+                        theme ? "text-gray-600" : "text-gray-400"
+                      }`}
+                    >
+                      Comment
+                    </p>
+                    <p
+                      className={`text-sm ${
+                        theme ? "text-gray-800" : "text-gray-100"
+                      }`}
+                    >
+                      {rev.reviewComment}
+                    </p>
+                  </div>
+
+                  {/* Date + Rating */}
+                  <div className="flex justify-between items-center mt-4">
+                    <p
+                      className={`text-sm ${
+                        theme ? "text-gray-500" : "text-gray-400"
+                      }`}
+                    >
+                      {new Date(rev.reviewDate).toLocaleDateString()}
+                    </p>
+
+                    <div className="flex items-center gap-1 text-yellow-400">
+                      {rev.ratingPoint}
+                      <Star size={16} />
+                    </div>
+                  </div>
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => {
+                      handleDelete(rev._id);
+                    }}
+                    className="mt-5 w-full py-2 rounded-md bg-red-500 text-white hover:bg-red-600 flex items-center justify-center gap-2"
+                  >
+                    <Trash2 size={16} /> Delete
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="col-span-full text-center py-10 text-gray-400">
+                No reviews found.
               </p>
-
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 rounded-md bg-gray-400 text-white hover:bg-gray-500"
-                >
-                  Cancel
-                </button>
-
-                <button className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700">
-                  Delete
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         )}
       </div>
