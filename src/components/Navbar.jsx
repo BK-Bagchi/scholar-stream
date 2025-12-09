@@ -99,8 +99,8 @@ const NavItems = ({ theme }) => (
         to="/"
         className={`font-medium transition ${
           theme
-            ? "text-gray-700 hover:text-blue-600"
-            : "text-gray-200 hover:text-blue-300"
+            ? "text-white hover:text-softWhite"
+            : "text-electricBlue hover:text-blue-700"
         }`}
       >
         Home
@@ -111,8 +111,8 @@ const NavItems = ({ theme }) => (
         to="/all-scholarships"
         className={`font-medium transition ${
           theme
-            ? "text-gray-700 hover:text-blue-600"
-            : "text-gray-200 hover:text-blue-300"
+            ? "text-white hover:text-softWhite"
+            : "text-electricBlue hover:text-blue-700"
         }`}
       >
         All Scholarships
@@ -130,15 +130,17 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`border-b shadow-sm sticky top-0 z-50 ${
-        theme ? "bg-white border-gray-200" : "bg-gray-900 border-gray-700"
+      className={`shadow-sm sticky top-0 z-50 ${
+        theme
+          ? "bg-electricBlue border-gray-200"
+          : "bg-gray-900 border-gray-700"
       }`}
     >
       <div className="max-w-[95%] mx-auto flex justify-between items-center px-4 py-3 md:px-8">
         <Link
           to="/"
           className={`text-2xl font-bold tracking-wide hover:opacity-90 ${
-            theme ? "text-blue-600" : "text-blue-400"
+            theme ? "text-softWhite" : "text-electricBlue"
           }`}
         >
           ScholarStream

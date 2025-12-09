@@ -10,5 +10,5 @@
 }
 
 .active {
-  @apply text-blue-600 underline decoration-blue-600;
+  @apply text-white underline decoration-white;
 }
