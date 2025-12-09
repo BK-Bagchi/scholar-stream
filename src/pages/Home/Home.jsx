@@ -1,14 +1,14 @@
 import React from "react";
 import Banner from "./Banner";
-import TopStudyPartners from "./TopStudyPartners";
 import HowItWorks from "./HowItWorks";
 import Testimonials from "./Testimonials";
+import TopScholarships from "./TopScholarships";
 
 const Home = () => {
   return (
     <>
       <Banner />
-      <TopStudyPartners />
+      <TopScholarships />
       <HowItWorks />
       <Testimonials />
     </>

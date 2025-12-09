@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //prettier-ignore
 import { MapPin, GraduationCap, Banknote, School, Calendar } from "lucide-react";
-import { useTheme } from "../hooks/useTheme";
-import { ScholarshipAPI } from "../api";
-import Loader from "../components/Loader";
+import { useTheme } from "../../hooks/useTheme";
+import { ScholarshipAPI } from "../../api";
+import Loader from "../../components/Loader";
 
-const AllScholarships = () => {
+const TopScholarships = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("");
 
   const [scholarships, setScholarships] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,42 +37,8 @@ const AllScholarships = () => {
             theme ? "text-blue-600" : "text-blue-400"
           }`}
         >
-          Explore Scholarships
+          Top Scholarships
         </h2>
-
-        {/* 🔍 Filters */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-          {/* Select (kept exactly same as your code) */}
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            className={`px-4 py-2 rounded-md w-full sm:w-1/4 focus:outline-none focus:ring-2 transition ${
-              theme
-                ? "text-gray-700 border border-gray-500 focus:ring-blue-400 bg-white"
-                : "text-gray-100 border border-gray-600 focus:ring-blue-400 bg-gray-800"
-            }`}
-          >
-            <option className="hidden" value="">
-              Sort by Category
-            </option>
-            <option value="Full">Full Scholarship</option>
-            <option value="Partial">Partial Scholarship</option>
-            <option value="Merit">Merit Based</option>
-          </select>
-
-          {/* Input (kept same) */}
-          <input
-            type="text"
-            placeholder="Search scholarship..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className={`px-4 py-2 rounded-md w-full sm:w-1/2 focus:outline-none focus:ring-2 transition ${
-              theme
-                ? "text-gray-700 border border-gray-500 focus:ring-blue-400 bg-white"
-                : "text-gray-100 border border-gray-600 focus:ring-blue-400 bg-gray-800"
-            }`}
-          />
-        </div>
 
         {/* 📦 Scholarship Cards */}
         {loading ? (
@@ -202,4 +166,4 @@ const AllScholarships = () => {
   );
 };
 
-export default AllScholarships;
+export default TopScholarships;
