@@ -4,17 +4,17 @@ const testimonials = [
   {
     id: 1,
     name: "Ariana Rahman",
-    role: "Medical Student",
+    role: "Undergraduate Student",
     feedback:
-      "ScholarStream helped me connect with amazing peers who share my study goals. We keep each other motivated every day!",
+      "ScholarStream made it incredibly easy to find scholarships that match my profile. I used to miss so many opportunities, but now everything is organized in one place!",
     image: "https://randomuser.me/api/portraits/women/68.jpg",
   },
   {
     id: 2,
     name: "Rafiul Hasan",
-    role: "Computer Science Major",
+    role: "Computer Science Student",
     feedback:
-      "I’ve learned so much faster by pairing with like-minded students. The chat and collaboration features are top-notch!",
+      "The entire application process is smooth and stress-free. I can track my applications, view updates instantly, and apply to multiple scholarships with just a few clicks.",
     image: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
@@ -22,7 +22,7 @@ const testimonials = [
     name: "Taslima Nahar",
     role: "Engineering Student",
     feedback:
-      "The platform makes finding serious study partners effortless. My grades have improved since joining ScholarStream.",
+      "ScholarStream helped me discover university-funded scholarships that I never knew existed. I actually received one offer last month thanks to this platform!",
     image: "https://randomuser.me/api/portraits/women/12.jpg",
   },
 ];
@@ -31,12 +31,10 @@ const Testimonials = () => {
   return (
     <section className="py-20 bg-[#1D232A] text-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          What Our Users Say
-        </h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
         <p className="text-gray-100 mb-12 max-w-2xl mx-auto">
-          Hear from students who’ve found their perfect study partners and
-          boosted their learning journey.
+          Hear from students who’ve found their scholarships at their fingertips
+          and boosted their academic journey.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
