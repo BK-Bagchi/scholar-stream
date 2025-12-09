@@ -31,7 +31,7 @@ const Sidebar = ({ theme }) => {
 
   return (
     <aside
-      className={`flex flex-col justify-between h-screen px-3 py-6 w-[250px] transition-all 
+      className={`flex flex-col justify-between h-screen w-full px-3 py-6 transition-all 
       ${
         theme
           ? "bg-white text-gray-800 border-r border-gray-200"

@@ -11,11 +11,11 @@ const GeneralItems = ({ handleLogout, theme }) => (
     <Link
       to="/login"
       onClick={handleLogout}
-      className={`border ${theme ? "border-blue-600" : "border-blue-400"} ${
-        theme ? "text-blue-600" : "text-blue-300"
-      } px-4 py-2 rounded-md font-medium ${
-        theme ? "hover:bg-blue-50" : "hover:bg-gray-700"
-      } transition`}
+      className={`border ${
+        theme
+          ? "border-blue-600 hover:bg-blue-600 text-softWhite"
+          : "border-blue-400 hover:bg-gray-700 text-electricBlue"
+      } px-4 py-2 rounded-md font-medium transition`}
     >
       Login
     </Link>
@@ -169,7 +169,7 @@ const Navbar = () => {
             <ul
               className={`absolute right-0 mt-3 border rounded-lg shadow-lg w-48 p-3 space-y-2 ${
                 theme
-                  ? "bg-white border-gray-200"
+                  ? "bg-electricBlue border-gray-200"
                   : "bg-gray-800 border-gray-700"
               }`}
             >
