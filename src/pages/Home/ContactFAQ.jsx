@@ -1,6 +1,7 @@
 import { useTheme } from "../../hooks/useTheme";
 import { Mail, Phone, MapPin, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ContactFAQ = () => {
   const { theme } = useTheme();
@@ -30,25 +31,32 @@ const ContactFAQ = () => {
   ];
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       className={`py-12 min-h-screen transition ${
         theme ? "bg-gray-50" : "bg-gray-900"
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* ---- Title ---- */}
-        <h2
+        <motion.h2
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           className={`text-3xl font-bold text-center mb-10 ${
             theme ? "text-blue-600" : "text-blue-400"
           }`}
         >
           Contact Us & FAQs
-        </h2>
+        </motion.h2>
 
         {/* ---- Contact Section ---- */}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           {/* Contact Info */}
-          <div
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
             className={`p-6 rounded-xl border transition ${
               theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
             }`}
@@ -98,10 +106,13 @@ const ContactFAQ = () => {
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Contact Form */}
-          <div
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
             className={`p-6 rounded-xl border transition ${
               theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
             }`}
@@ -145,15 +156,22 @@ const ContactFAQ = () => {
                 }`}
               ></textarea>
 
-              <button className="w-full py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+              >
                 Send Message
-              </button>
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
 
         {/* ---- FAQ Section ---- */}
-        <div
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
           className={`p-6 rounded-xl border transition ${
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
           }`}
@@ -168,8 +186,10 @@ const ContactFAQ = () => {
 
           <div className="space-y-4">
             {faqs.map((faq) => (
-              <div
+              <motion.div
                 key={faq.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 className={`rounded-lg border transition ${
                   theme
                     ? "bg-gray-100 border-gray-300"
@@ -188,28 +208,38 @@ const ContactFAQ = () => {
                     {faq.q}
                   </span>
 
-                  <ChevronDown
-                    className={`transition ${
-                      openFAQ === faq.id ? "rotate-180" : ""
-                    } ${theme ? "text-gray-600" : "text-gray-300"}`}
-                  />
+                  <motion.div
+                    animate={{ rotate: openFAQ === faq.id ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown
+                      className={`${theme ? "text-gray-600" : "text-gray-300"}`}
+                    />
+                  </motion.div>
                 </button>
 
-                {openFAQ === faq.id && (
-                  <p
-                    className={`px-4 pb-4 text-sm ${
-                      theme ? "text-gray-700" : "text-gray-300"
-                    }`}
-                  >
-                    {faq.a}
-                  </p>
-                )}
-              </div>
+                {/* FAQ Expand Animation */}
+                <AnimatePresence>
+                  {openFAQ === faq.id && (
+                    <motion.p
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className={`px-4 pb-4 text-sm ${
+                        theme ? "text-gray-700" : "text-gray-300"
+                      }`}
+                    >
+                      {faq.a}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

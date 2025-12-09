@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //prettier-ignore
-import { MapPin, GraduationCap, Banknote, School, Calendar } from "lucide-react";
+import { MapPin, GraduationCap, Banknote, School, Calendar,} from "lucide-react";
+import { motion } from "framer-motion";
 import { useTheme } from "../../hooks/useTheme";
 import { ScholarshipAPI } from "../../api";
 import Loader from "../../components/Loader";
@@ -19,7 +20,7 @@ const TopScholarships = () => {
         const res = await ScholarshipAPI.getAllScholarships();
         setScholarships(res.data.scholarships);
       } catch (error) {
-        console.error(error.response.data.message);
+        console.error(error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
@@ -27,59 +28,82 @@ const TopScholarships = () => {
 
     fetchScholarships();
   }, []);
-  // console.log(scholarships);
 
   return (
-    <div className={`py-12 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <h2
-          className={`text-3xl font-bold mb-8 text-center transition ${
+    <div className={`py-14 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
+      <div className="max-w-7xl mx-auto px-4 md:px-10">
+        {/* HEADER */}
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className={`text-3xl md:text-4xl font-bold mb-10 text-center ${
             theme ? "text-blue-600" : "text-blue-400"
           }`}
         >
           Top Scholarships
-        </h2>
+        </motion.h2>
 
-        {/* 📦 Scholarship Cards */}
+        {/* LOADER */}
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.15 },
+              },
+            }}
+          >
             {scholarships.length > 0 ? (
               scholarships.map((sch) => (
-                <div
+                <motion.div
                   key={sch._id}
-                  className={`rounded-xl p-4 border transition shadow-sm hover:shadow-lg hover:-translate-y-1 cursor-pointer 
-            ${
-              theme
-                ? "bg-white border-gray-300 hover:border-blue-300"
-                : "bg-gray-800 border-gray-700 hover:border-blue-400"
-            }`}
+                  variants={{
+                    hidden: { opacity: 0, y: 40 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 150 }}
+                  className={`rounded-xl border p-5 shadow-md cursor-pointer transition relative overflow-hidden
+                    ${
+                      theme
+                        ? "bg-white border-gray-300 hover:border-blue-300"
+                        : "bg-gray-800 border-gray-700 hover:border-blue-400"
+                    }
+                  `}
                 >
-                  {/* University Image */}
-                  <img
+                  {/* Image */}
+                  <motion.img
                     src={sch.universityImage}
-                    alt={sch.universityName}
+                    alt={sch.scholarshipName}
                     className="rounded-lg w-full h-40 object-cover mb-4"
+                    whileHover={{ scale: 1.07 }}
+                    transition={{ duration: 0.4 }}
                   />
 
                   {/* Title */}
                   <h3
-                    className={`text-lg font-semibold mb-1 ${
+                    className={`text-lg font-bold mb-1 ${
                       theme ? "text-gray-900" : "text-white"
                     }`}
                   >
-                    {sch.scholarshipName || "Null"}
+                    {sch.scholarshipName}
                   </h3>
 
                   {/* University */}
                   <p
-                    className={`flex items-center gap-1 text-sm mb-1 ${
+                    className={`flex items-center gap-1 text-sm mb-1 font-medium ${
                       theme ? "text-blue-600" : "text-blue-400"
                     }`}
                   >
                     <School size={16} />
-                    {sch.universityName || "Null"}
+                    {sch.universityName}
                   </p>
 
                   {/* Subject Category */}
@@ -88,17 +112,17 @@ const TopScholarships = () => {
                       theme ? "text-gray-700" : "text-gray-300"
                     }`}
                   >
-                    🎓 {sch.subjectCategory || "Null"}
+                    🎓 {sch.subjectCategory}
                   </p>
 
-                  {/* Scholarship Category + Degree */}
+                  {/* Category + Degree */}
                   <p
                     className={`flex items-center gap-1 text-sm mb-1 ${
                       theme ? "text-gray-700" : "text-gray-300"
                     }`}
                   >
                     <GraduationCap size={16} />
-                    {sch.scholarshipCategory || "Null"} — {sch.degree || "Null"}
+                    {sch.scholarshipCategory} — {sch.degree}
                   </p>
 
                   {/* Location */}
@@ -108,8 +132,7 @@ const TopScholarships = () => {
                     }`}
                   >
                     <MapPin size={16} />
-                    {sch.universityCity || "Null"},{" "}
-                    {sch.universityCountry || "Null"}
+                    {sch.universityCity}, {sch.universityCountry}
                   </p>
 
                   {/* Application Fee */}
@@ -120,7 +143,7 @@ const TopScholarships = () => {
                   >
                     <Banknote size={16} />
                     Application Fee:{" "}
-                    <span className="font-medium">
+                    <span className="font-semibold ml-1">
                       {sch.applicationFees > 0
                         ? `$${sch.applicationFees}`
                         : "Free"}
@@ -129,7 +152,7 @@ const TopScholarships = () => {
 
                   {/* Deadline */}
                   <p
-                    className={`flex items-center gap-1 text-sm mb-4 ${
+                    className={`flex items-center gap-1 text-sm mb-5 ${
                       theme ? "text-gray-700" : "text-gray-300"
                     }`}
                   >
@@ -140,26 +163,28 @@ const TopScholarships = () => {
                     </span>
                   </p>
 
-                  {/* Button */}
-                  <button
+                  {/* CTA BUTTON */}
+                  <motion.button
                     onClick={() => navigate(`/scholarship/${sch._id}`)}
-                    className={`w-full py-2 px-4 rounded-md font-medium transition 
-              ${
-                theme
-                  ? "bg-blue-600 text-white hover:bg-blue-700"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-full py-2 rounded-md font-medium shadow 
+                      ${
+                        theme
+                          ? "bg-blue-600 text-white hover:bg-blue-700"
+                          : "bg-blue-500 text-white hover:bg-blue-600"
+                      }
+                    `}
                   >
                     View Details
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
               ))
             ) : (
-              <p className="text-center text-gray-500">
+              <p className="text-center text-gray-500 col-span-full">
                 No scholarships found.
               </p>
             )}
-          </div>
+          </motion.div>
         )}
       </div>
     </div>
