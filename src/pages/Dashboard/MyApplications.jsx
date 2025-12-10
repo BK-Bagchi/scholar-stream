@@ -142,7 +142,10 @@ const MyApplications = () => {
                       <td className="p-4">
                         <div className="flex flex-col">
                           <span>
-                            App Fee: <b>${app.applicationFees}</b>
+                            Tuition: <b>${app.tuitionFees}</b>
+                          </span>
+                          <span>
+                            Application: <b>${app.applicationFees}</b>
                           </span>
                           <span>
                             Service: <b>${app.serviceCharge}</b>
@@ -225,7 +228,7 @@ const MyApplications = () => {
                         )}
 
                         {/* Review */}
-                        {app.applicationStatus === "pending" && (
+                        {app.applicationStatus === "approved" && (
                           <button
                             onClick={() => {
                               setSelectedApp(app);

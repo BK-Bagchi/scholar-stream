@@ -109,7 +109,7 @@ const PaymentSuccess = () => {
                   : "bg-electricBlue text-white hover:bg-vibrantPurple"
               }`}
             onClick={() => {
-              navigate("/");
+              navigate("/dashboard/my-applications");
             }}
           >
             Go to My Applications

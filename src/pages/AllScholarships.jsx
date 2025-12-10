@@ -193,7 +193,6 @@ const AllScholarships = () => {
                 paginated.map((sch) => (
                   <div
                     key={sch._id}
-                    onClick={() => navigate(`/scholarship/${sch._id}`)}
                     className={`rounded-xl p-4 border transition hover:-translate-y-1 cursor-pointer ${
                       theme
                         ? "bg-white border-gray-300 hover:border-blue-300"
@@ -262,6 +261,12 @@ const AllScholarships = () => {
                       <Calendar size={16} /> Deadline:{" "}
                       {new Date(sch.applicationDeadline).toLocaleDateString()}
                     </p>
+                    <div
+                      className="bg-electricBlue rounded-lg p-3 mt-3 text-center text-white"
+                      onClick={() => navigate(`/scholarship/${sch._id}`)}
+                    >
+                      View Details
+                    </div>
                   </div>
                 ))
               ) : (

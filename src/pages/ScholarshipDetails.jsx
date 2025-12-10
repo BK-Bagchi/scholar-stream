@@ -7,6 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
 import { ApplicationAPI, PaymentAPI, ReviewAPI, ScholarshipAPI } from "../api";
 import Loader from "../components/Loader";
+import formatText from "../utils/formatText";
 
 const ScholarshipDetails = () => {
   const { user } = useAuth();
@@ -77,6 +78,7 @@ const ScholarshipDetails = () => {
       universityName: scholarship.universityName,
       scholarshipCategory: scholarship.scholarshipCategory,
       degree: scholarship.degree,
+      tuitionFees: scholarship.tuitionFees,
       applicationFees: scholarship.applicationFees,
       serviceCharge: scholarship.serviceCharge,
     };
@@ -120,7 +122,7 @@ const ScholarshipDetails = () => {
                 className="rounded-xl w-full h-full object-cover"
               />
               <span className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow">
-                {scholarship.scholarshipCategory}
+                {formatText(scholarship.scholarshipCategory)}
               </span>
             </div>
 
@@ -192,7 +194,7 @@ const ScholarshipDetails = () => {
                 </span>
               </p>
 
-              {/* Application Fee */}
+              {/* Scholarship Category */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -202,10 +204,8 @@ const ScholarshipDetails = () => {
                 <span
                   className={`${theme ? "text-gray-700" : "text-gray-300"}`}
                 >
-                  <span className="font-semibold">Application Fee:</span>{" "}
-                  {scholarship.applicationFees > 0
-                    ? `$${scholarship.applicationFees}`
-                    : "Free"}
+                  <span className="font-semibold">Scholarship Category:</span>{" "}
+                  {formatText(scholarship.scholarshipCategory)}
                 </span>
               </p>
 
@@ -255,14 +255,23 @@ const ScholarshipDetails = () => {
               >
                 Fees & Coverage
               </h4>
-
               <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-                <span className="font-semibold">Tuition Fees:</span> $
+                <span
+                  className={`${theme ? "text-gray-700" : "text-gray-300"}`}
+                >
+                  <span className="font-semibold">Application Fees: </span>
+                  {scholarship.applicationFees > 0
+                    ? `$${scholarship.applicationFees}`
+                    : "Free"}
+                </span>
+              </p>
+              <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
+                <span className="font-semibold">Tuition Fees: </span> $
                 {scholarship.tuitionFees}
               </p>
 
               <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
-                <span className="font-semibold">Service Charge:</span> $
+                <span className="font-semibold">Service Charge: </span> $
                 {scholarship.serviceCharge}
               </p>
             </div>

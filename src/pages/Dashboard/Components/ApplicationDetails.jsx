@@ -55,7 +55,9 @@ const ApplicationDetails = ({ selectedApp }) => {
         </p>
 
         <hr className={theme ? "border-gray-300" : "border-gray-700"} />
-
+        <p>
+          <b>Tuition Fees:</b> ${selectedApp.tuitionFees}
+        </p>
         <p>
           <b>Application Fees:</b> ${selectedApp.applicationFees}
         </p>
