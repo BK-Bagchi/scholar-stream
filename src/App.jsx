@@ -40,7 +40,6 @@ function App() {
               <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/payment/failed" element={<PaymentFailed />} />
-              <Route path="/checkout" element={<NotFound />} />
 
               <Route path="dashboard" element={<Dashboard />}>
                 <Route index element={<MyProfile />} />

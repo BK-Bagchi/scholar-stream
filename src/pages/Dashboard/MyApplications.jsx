@@ -27,7 +27,7 @@ const MyApplications = () => {
     };
     fetchApplications();
   }, []);
-  // console.log(applications);
+  console.log(applications);
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -52,8 +52,9 @@ const MyApplications = () => {
     const confirmation = window.confirm("Are you sure you want to pay?");
     if (!confirmation) return;
 
+    localStorage.setItem("scholarshipName", app.scholarshipId.scholarshipName);
     const data = {
-      scholarshipId: app.scholarshipId,
+      scholarshipId: app.scholarshipId._id,
       userId: app._id,
       userName: app.userName,
       userEmail: app.userEmail,
@@ -63,7 +64,6 @@ const MyApplications = () => {
       applicationFees: app.applicationFees,
       serviceCharge: app.serviceCharge,
     };
-    // console.log(data);
 
     try {
       const res = await PaymentAPI.makePayment(data);

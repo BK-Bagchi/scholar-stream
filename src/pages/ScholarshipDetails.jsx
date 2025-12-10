@@ -56,6 +56,7 @@ const ScholarshipDetails = () => {
     const confirmation = window.confirm("Are you sure you want to apply?");
     if (!confirmation) return;
 
+    localStorage.setItem("scholarshipName", scholarship.scholarshipName);
     const data = {
       scholarshipId: scholarship._id,
       userId: user._id,

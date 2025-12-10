@@ -1,11 +1,11 @@
 import { XCircle } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
+import { useNavigate } from "react-router-dom";
 
-const PaymentFailed = ({
-  scholarshipName = "My Scholarship",
-  errorMessage,
-}) => {
+const PaymentFailed = () => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  const scholarshipName = localStorage.getItem("scholarshipName");
 
   return (
     <div
@@ -48,14 +48,8 @@ const PaymentFailed = ({
 
           <div className="flex justify-between text-sm mb-3">
             <span className="font-medium text-gray-600">Scholarship:</span>
-            <span className="font-semibold">{scholarshipName}</span>
+            <span className="font-semibold">{scholarshipName || "N/A"}</span>
           </div>
-
-          {errorMessage && (
-            <div className="mt-3 p-3 rounded-lg text-sm bg-red-50 text-red-600 border border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-700">
-              <strong>Error:</strong> {errorMessage}
-            </div>
-          )}
         </div>
 
         {/* Action Button */}
@@ -67,6 +61,7 @@ const PaymentFailed = ({
                   ? "bg-electricBlue text-white hover:bg-vibrantPurple"
                   : "bg-electricBlue text-white hover:bg-vibrantPurple"
               }`}
+            onClick={() => navigate("/dashboard")}
           >
             Return to Dashboard
           </button>
