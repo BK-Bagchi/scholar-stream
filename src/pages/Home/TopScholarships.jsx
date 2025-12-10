@@ -29,6 +29,8 @@ const TopScholarships = () => {
     fetchScholarships();
   }, []);
 
+  const topScholarships = scholarships.slice(0, 6);
+
   return (
     <div className={`py-14 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
       <div className="max-w-7xl mx-auto px-4 md:px-10">
@@ -60,8 +62,8 @@ const TopScholarships = () => {
               },
             }}
           >
-            {scholarships.length > 0 ? (
-              scholarships.map((sch) => (
+            {topScholarships.length > 0 ? (
+              topScholarships.map((sch) => (
                 <motion.div
                   key={sch._id}
                   variants={{
