@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  MapPin,
-  GraduationCap,
-  Banknote,
-  School,
-  Calendar,
-} from "lucide-react";
+//prettier-ignore
+import { MapPin, GraduationCap, Banknote, School, Calendar, BookOpen } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
 import { ScholarshipAPI } from "../api";
 import Loader from "../components/Loader";
@@ -20,12 +15,13 @@ const AllScholarships = () => {
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
-  const [sortCategory, setSortCategory] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [subjectFilter, setSubjectFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   const [page, setPage] = useState(1);
-  const itemsPerPage = 1;
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -46,49 +42,72 @@ const AllScholarships = () => {
     };
     fetchData();
   }, []);
-  console.log(scholarships);
+  // console.log(scholarships);
 
-  const filtered = scholarships.filter((sch) => {
-    const s = search.toLowerCase();
-
-    return (
-      (sch.scholarshipName || "").toLowerCase().includes(s) ||
-      (sch.universityName || "").toLowerCase().includes(s) ||
-      (sch.degree || "").toLowerCase().includes(s)
-    );
-  });
-
-  const fullyFiltered = filtered
-    .filter((sch) =>
-      sortCategory ? sch.scholarshipCategory === sortCategory : true
+  const filtered = scholarships
+    .filter((s) => {
+      const q = search.toLowerCase();
+      return (
+        s.scholarshipName.toLowerCase().includes(q) ||
+        s.universityName.toLowerCase().includes(q) ||
+        s.degree.toLowerCase().includes(q)
+      );
+    })
+    .filter((s) =>
+      categoryFilter ? s.scholarshipCategory === categoryFilter : true
     )
-    .filter((sch) =>
-      subjectFilter ? sch.subjectCategory === subjectFilter : true
-    )
-    .filter((sch) =>
+    .filter((s) => (subjectFilter ? s.subjectCategory === subjectFilter : true))
+    .filter((s) =>
       locationFilter
-        ? `${sch.universityCity}, ${sch.universityCountry}` === locationFilter
+        ? `${s.universityCity}, ${s.universityCountry}` === locationFilter
         : true
     );
 
-  const totalPages = Math.ceil(fullyFiltered.length / itemsPerPage);
-  const startIndex = (page - 1) * itemsPerPage;
-  const paginated = fullyFiltered.slice(startIndex, startIndex + itemsPerPage);
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === "category")
+      return a.scholarshipCategory.localeCompare(b.scholarshipCategory);
+    if (sortBy === "subject")
+      return a.subjectCategory.localeCompare(b.subjectCategory);
+    if (sortBy === "location")
+      return `${a.universityCity} ${a.universityCountry}`.localeCompare(
+        `${b.universityCity} ${b.universityCountry}`
+      );
+    return 0;
+  });
 
-  const goToPage = (newPage) => {
-    navigate(`?page=${newPage}`);
-  };
+  const totalPages = Math.ceil(sorted.length / itemsPerPage);
+  const startIndex = (page - 1) * itemsPerPage;
+  const paginated = sorted.slice(startIndex, startIndex + itemsPerPage);
+
+  const goToPage = (newPage) => navigate(`?page=${newPage}`);
 
   return (
     <div className={`py-12 ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <h2
-          className={`text-3xl font-bold mb-8 text-center ${
-            theme ? "text-blue-600" : "text-blue-400"
-          }`}
-        >
-          Explore Scholarships
-        </h2>
+        <div className="flex items-center justify-between mb-8">
+          <h2
+            className={`text-3xl font-bold ${
+              theme ? "text-blue-600" : "text-blue-400"
+            }`}
+          >
+            Explore Scholarships
+          </h2>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className={`px-4 py-2 rounded-md border ${
+              theme
+                ? "bg-white text-gray-800 border-gray-300"
+                : "bg-gray-800 text-gray-200 border-gray-700"
+            }`}
+          >
+            <option value="">Sort By</option>
+            <option value="category">Scholarship Category (A-Z)</option>
+            <option value="subject">Subject Category (A-Z)</option>
+            <option value="location">Location (A-Z)</option>
+          </select>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <input
@@ -98,24 +117,28 @@ const AllScholarships = () => {
             onChange={(e) => setSearch(e.target.value)}
             className={`px-4 py-2 rounded-md border ${
               theme
-                ? "bg-white border-gray-400 text-gray-600"
+                ? "bg-white border-gray-400 text-gray-700"
                 : "bg-gray-800 border-gray-700 text-gray-200"
             }`}
           />
 
           <select
-            value={sortCategory}
-            onChange={(e) => setSortCategory(e.target.value)}
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
             className={`px-4 py-2 rounded-md border ${
               theme
-                ? "bg-white text-gray-600"
-                : "bg-gray-800 border-gray-700 text-gray-200"
+                ? "bg-white text-gray-700"
+                : "bg-gray-800 text-gray-200 border-gray-700"
             }`}
           >
             <option value="">Category</option>
-            <option value="Full">Full Scholarship</option>
-            <option value="Partial">Partial Scholarship</option>
-            <option value="Merit">Merit Based</option>
+            {[...new Set(scholarships.map((s) => s.scholarshipCategory))].map(
+              (cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              )
+            )}
           </select>
 
           <select
@@ -123,14 +146,14 @@ const AllScholarships = () => {
             onChange={(e) => setSubjectFilter(e.target.value)}
             className={`px-4 py-2 rounded-md border ${
               theme
-                ? "bg-white text-gray-600"
-                : "bg-gray-800 border-gray-700 text-gray-200"
+                ? "bg-white text-gray-700"
+                : "bg-gray-800 text-gray-200 border-gray-700"
             }`}
           >
-            <option value="">Subject Category</option>
+            <option value="">Subject</option>
             {[...new Set(scholarships.map((s) => s.subjectCategory))].map(
               (sub) => (
-                <option value={sub} key={sub}>
+                <option key={sub} value={sub}>
                   {sub}
                 </option>
               )
@@ -142,8 +165,8 @@ const AllScholarships = () => {
             onChange={(e) => setLocationFilter(e.target.value)}
             className={`px-4 py-2 rounded-md border ${
               theme
-                ? "bg-white text-gray-600"
-                : "bg-gray-800 border-gray-700 text-gray-200"
+                ? "bg-white text-gray-700"
+                : "bg-gray-800 text-gray-200 border-gray-700"
             }`}
           >
             <option value="">Location</option>
@@ -154,7 +177,7 @@ const AllScholarships = () => {
                 )
               ),
             ].map((loc) => (
-              <option value={loc} key={loc}>
+              <option key={loc} value={loc}>
                 {loc}
               </option>
             ))}
@@ -171,7 +194,7 @@ const AllScholarships = () => {
                   <div
                     key={sch._id}
                     onClick={() => navigate(`/scholarship/${sch._id}`)}
-                    className={`rounded-xl p-4 border hover:-translate-y-1 transition cursor-pointer ${
+                    className={`rounded-xl p-4 border transition hover:-translate-y-1 cursor-pointer ${
                       theme
                         ? "bg-white border-gray-300 hover:border-blue-300"
                         : "bg-gray-800 border-gray-700 hover:border-blue-400"
@@ -194,8 +217,12 @@ const AllScholarships = () => {
                       <School size={16} /> {sch.universityName}
                     </p>
 
-                    <p className={theme ? "text-gray-700" : "text-gray-300"}>
-                      🎓 {sch.subjectCategory}
+                    <p
+                      className={`flex items-center gap-1 ${
+                        theme ? "text-gray-700" : "text-gray-300"
+                      }`}
+                    >
+                      <BookOpen size={16} /> {sch.subjectCategory}
                     </p>
 
                     <p
@@ -221,11 +248,9 @@ const AllScholarships = () => {
                         theme ? "text-gray-700" : "text-gray-300"
                       }`}
                     >
-                      <Banknote size={16} /> Application Fee:{" "}
+                      <Banknote size={16} /> Tuition Fee:{" "}
                       <span className="font-medium">
-                        {sch.applicationFees > 0
-                          ? `$${sch.applicationFees}`
-                          : "Free"}
+                        {sch.tuitionFees > 0 ? `$${sch.tuitionFees}` : "Free"}
                       </span>
                     </p>
 
@@ -279,7 +304,7 @@ const AllScholarships = () => {
                 ))}
 
                 <button
-                  onClick={() => goToPage(totalPages)}
+                  onClick={() => goToPage(page + 1)}
                   disabled={page === totalPages}
                   className={`px-4 py-2 rounded-md border ${
                     theme ? "text-gray-600" : "text-gray-200"
@@ -289,7 +314,7 @@ const AllScholarships = () => {
                       : "hover:bg-blue-600 hover:text-white"
                   }`}
                 >
-                  Last
+                  Next
                 </button>
               </div>
             )}
