@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Eye, Pencil, Trash2, DollarSign, Star, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useTheme } from "../../hooks/useTheme";
-import { ApplicationAPI } from "../../api";
+import { ApplicationAPI, PaymentAPI } from "../../api";
 import Loader from "../../components/Loader";
 import formatText from "../../utils/formatText";
 import Modal from "../../components/Modal";
@@ -45,6 +45,33 @@ const MyApplications = () => {
       setApplications((prev) => prev.filter((app) => app._id !== id));
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handlePayment = async (app) => {
+    const confirmation = window.confirm("Are you sure you want to pay?");
+    if (!confirmation) return;
+
+    const data = {
+      scholarshipId: app.scholarshipId,
+      userId: app._id,
+      userName: app.userName,
+      userEmail: app.userEmail,
+      universityName: app.universityName,
+      scholarshipCategory: app.scholarshipCategory,
+      degree: app.degree,
+      applicationFees: app.applicationFees,
+      serviceCharge: app.serviceCharge,
+    };
+    // console.log(data);
+
+    try {
+      const res = await PaymentAPI.makePayment(data);
+
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.error || "Payment error");
     }
   };
 
@@ -179,7 +206,10 @@ const MyApplications = () => {
                         {/* Pay */}
                         {app.applicationStatus === "pending" &&
                           app.paymentStatus === "unpaid" && (
-                            <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-green-500 text-white hover:bg-green-600">
+                            <button
+                              className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-green-500 text-white hover:bg-green-600"
+                              onClick={() => handlePayment(app)}
+                            >
                               <DollarSign size={16} /> Pay
                             </button>
                           )}
