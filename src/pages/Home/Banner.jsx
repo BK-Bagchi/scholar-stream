@@ -41,7 +41,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <section className="w-full py-10 md:py-16 px-4 md:px-12 bg-linear-to-br from-electricBlue/30 via-vibrantPurple/30 to-tealGreen/30">
+    <section className="w-full py-10 md:py-16 px-4 md:px-12 bg-linear-to-br from-[#233C69] via-[#3E2451] to-[#22544B]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
         {/* LEFT CONTENT */}
         <motion.div
