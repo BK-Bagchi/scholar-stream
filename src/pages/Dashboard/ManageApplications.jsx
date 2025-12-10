@@ -183,7 +183,7 @@ const ManageApplications = () => {
                         <button
                           disabled={app.applicationStatus === "rejected"}
                           onClick={() => handleRejectApplication(app._id)}
-                          className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600"
+                          className={`px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed`}
                         >
                           <Trash2 size={16} /> Cancel
                         </button>
