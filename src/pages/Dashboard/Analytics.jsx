@@ -2,38 +2,74 @@ import { Users, Banknote, GraduationCap, BarChart3 } from "lucide-react";
 //prettier-ignore
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { useTheme } from "../../hooks/useTheme";
+import { useEffect, useState } from "react";
+import { ApplicationAPI } from "../../api";
 
 const Analytics = () => {
   const { theme } = useTheme();
-  // Placeholder stats
+  const [applications, setApplications] = useState([]);
+  const [scholarships, setScholarships] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const res = await ApplicationAPI.getAnalytics();
+        setApplications(res.data.applications);
+        setScholarships(res.data.scholarships);
+        setUsers(res.data.users);
+      } catch (err) {
+        console.error(err.response?.data?.message);
+      }
+    };
+    fetchAnalytics();
+  }, []);
+  // console.log(applications);
+  // console.log(scholarships);
+  // console.log(users);
+
+  const fullFundedScholarships = applications.filter(
+    (app) => app.scholarshipCategory === "Full fund"
+  );
+  const partialFundedScholarships = applications.filter(
+    (app) => app.scholarshipCategory === "Partial"
+  );
+  const selfFundedScholarships = applications.filter(
+    (app) => app.scholarshipCategory === "Self-fund"
+  );
+
+  const totalFees = applications
+    .filter((app) => app.paymentStatus === "paid")
+    .reduce((sum, app) => sum + (app.payment?.amount || 0), 0);
+
   const stats = [
     {
       title: "Total Users",
-      value: "1,240",
+      value: users.length,
       icon: <Users size={26} />,
       color: "text-blue-500",
     },
     {
       title: "Fees Collected",
-      value: "$85,210",
+      value: `$ ${totalFees}`,
       icon: <Banknote size={26} />,
       color: "text-green-500",
     },
     {
       title: "Total Scholarships",
-      value: "320",
+      value: scholarships.length,
       icon: <GraduationCap size={26} />,
       color: "text-purple-500",
     },
   ];
 
-  // Placeholder chart data
   const chartData = [
-    { university: "Harvard", applications: 120 },
-    { university: "MIT", applications: 95 },
-    { university: "Stanford", applications: 110 },
-    { university: "Oxford", applications: 80 },
-    { university: "Toronto", applications: 60 },
+    { university: "Full Fund", applications: fullFundedScholarships.length },
+    {
+      university: "Partial Fund",
+      applications: partialFundedScholarships.length,
+    },
+    { university: "Self Fund", applications: selfFundedScholarships.length },
   ];
 
   return (
@@ -42,13 +78,11 @@ const Analytics = () => {
         theme ? "bg-gray-50 text-gray-900" : "bg-gray-900 text-gray-100"
       }`}
     >
-      {/* Header */}
       <div className="flex items-center gap-2 mb-6">
-        <BarChart3 size={28} />
+        <BarChart3 size={28} className="text-electricBlue" />
         <h1 className="text-2xl font-bold">Analytics Overview</h1>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {stats.map((item, idx) => (
           <div
@@ -66,14 +100,13 @@ const Analytics = () => {
         ))}
       </div>
 
-      {/* Bar Chart */}
       <div
         className={`p-6 rounded-2xl shadow-md transition ${
           theme ? "bg-white" : "bg-gray-800"
         }`}
       >
         <h2 className="text-lg font-semibold mb-4">
-          Applications Per University
+          Applications Per Scholarship category
         </h2>
 
         <div className="w-full h-72">
