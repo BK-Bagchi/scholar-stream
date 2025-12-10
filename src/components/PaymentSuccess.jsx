@@ -1,12 +1,34 @@
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
+import { PaymentAPI } from "../api";
 
-const PaymentSuccess = ({
-  scholarshipName = "My Scholarship",
-  universityName = "My University",
-  amount = 1000,
-}) => {
+const PaymentSuccess = () => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("sessionId");
+  const [application, setApplication] = useState(null);
+  // console.log(sessionId);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const res = await PaymentAPI.getSession(sessionId);
+        if (res.data.success === true) {
+          setApplication(res.data.application);
+          toast.success("Payment successful!");
+        } else toast.error("Payment failed!");
+      } catch (error) {
+        console.error("Error fetching session:", error);
+        toast.error("Payment failed with error!");
+      }
+    };
+    fetchSession();
+  }, [sessionId]);
+  // console.log(application);
 
   return (
     <div
@@ -52,12 +74,16 @@ const PaymentSuccess = ({
           <div className="flex flex-col gap-3 text-sm">
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Scholarship:</span>
-              <span className="font-semibold">{scholarshipName}</span>
+              <span className="font-semibold">
+                {application?.scholarshipId?.scholarshipName}
+              </span>
             </div>
 
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">University:</span>
-              <span className="font-semibold">{universityName}</span>
+              <span className="font-semibold">
+                {application?.universityName}
+              </span>
             </div>
 
             <div className="flex justify-between">
@@ -67,7 +93,7 @@ const PaymentSuccess = ({
                   theme ? "text-vibrantPurple" : "text-vibrantPurple"
                 }`}
               >
-                ${amount}
+                ${application?.payment?.amount}
               </span>
             </div>
           </div>
@@ -82,6 +108,9 @@ const PaymentSuccess = ({
                   ? "bg-electricBlue text-white hover:bg-vibrantPurple"
                   : "bg-electricBlue text-white hover:bg-vibrantPurple"
               }`}
+            onClick={() => {
+              navigate("/");
+            }}
           >
             Go to My Applications
           </button>
