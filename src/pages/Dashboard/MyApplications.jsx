@@ -27,7 +27,7 @@ const MyApplications = () => {
     };
     fetchApplications();
   }, []);
-  console.log(applications);
+  // console.log(applications);
 
   const [selectedApp, setSelectedApp] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);

@@ -104,14 +104,14 @@ const AllReviews = () => {
                         theme ? "text-gray-600" : "text-gray-400"
                       }`}
                     >
-                      Scholarshipp
+                      Scholarship
                     </p>
                     <p
                       className={`text-sm ${
                         theme ? "text-gray-800" : "text-gray-200"
                       }`}
                     >
-                      {rev.scholarshipName || "N/A"}
+                      {rev.scholarshipId.scholarshipName || "N/A"}
                     </p>
                   </div>
 

@@ -99,6 +99,15 @@ const MyReviews = () => {
                   </div>
                 </div>
 
+                {/* Scholarship */}
+                <p
+                  className={`text-sm mb-1 ${
+                    theme ? "text-gray-700" : "text-gray-300"
+                  }`}
+                >
+                  <b>Scholarship:</b> {rev.scholarshipId.scholarshipName}
+                </p>
+
                 {/* University */}
                 <p
                   className={`text-sm mb-1 ${

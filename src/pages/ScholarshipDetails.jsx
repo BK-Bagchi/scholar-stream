@@ -59,7 +59,7 @@ const ScholarshipDetails = () => {
   // console.log(reviews);
   // console.log(applications);
 
-  const filterReviews = reviews.filter((rev) => rev.scholarshipId === id);
+  const filterReviews = reviews.filter((rev) => rev.scholarshipId._id === id);
 
   const scholarship = scholarships.find((s) => s._id === id);
   const isApplied = applications.some((app) => app.scholarshipId._id === id);
