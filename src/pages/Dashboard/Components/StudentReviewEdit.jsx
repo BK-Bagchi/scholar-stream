@@ -69,7 +69,6 @@ const StudentReviewEdit = ({
         </h3>
       </div>
 
-      {/* Rating */}
       <div className="mb-4">
         <p
           className={`text-sm mb-2 ${
@@ -96,7 +95,6 @@ const StudentReviewEdit = ({
         </select>
       </div>
 
-      {/* Comment */}
       <div className="mb-4">
         <p
           className={`text-sm mb-2 ${
@@ -118,7 +116,6 @@ const StudentReviewEdit = ({
           placeholder="Write your review..."
         ></textarea>
 
-        {/* Validation Error */}
         {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
 

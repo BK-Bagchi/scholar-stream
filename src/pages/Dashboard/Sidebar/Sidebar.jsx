@@ -23,7 +23,7 @@ const Sidebar = ({ theme }) => {
   const getRoleLinks = () => {
     if (userRole === "admin") return adminSidebarLinks;
     if (userRole === "moderator") return moderatorSidebarLinks;
-    return studentSidebarLinks; // default student
+    return studentSidebarLinks;
   };
   // console.log(userRole);
 
@@ -39,7 +39,6 @@ const Sidebar = ({ theme }) => {
       }`}
     >
       <div>
-        {/* User Profile Section */}
         <div
           className={`flex items-center gap-3 px-3 py-2 my-4 rounded-md cursor-pointer transition border
           ${
@@ -72,7 +71,6 @@ const Sidebar = ({ theme }) => {
           </div>
         </div>
 
-        {/* Role-based Links */}
         <div className="flex flex-col gap-2">
           {roleLinks.map((link) => (
             <Link

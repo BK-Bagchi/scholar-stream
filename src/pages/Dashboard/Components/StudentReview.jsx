@@ -5,7 +5,6 @@ import { useAuth } from "../../../hooks/useAuth";
 import { ReviewAPI } from "../../../api";
 
 const StudentReview = ({ selectedApp, setShowReviewModal }) => {
-  //   console.log(selectedApp);
   const { theme } = useTheme();
   const { user } = useAuth();
 
@@ -60,7 +59,6 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
         </h3>
       </div>
 
-      {/* Rating */}
       <div className="mb-4">
         <p
           className={`text-sm mb-2 ${
@@ -87,7 +85,6 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
         </select>
       </div>
 
-      {/* Comment */}
       <div className="mb-4">
         <p
           className={`text-sm mb-2 ${
@@ -109,7 +106,6 @@ const StudentReview = ({ selectedApp, setShowReviewModal }) => {
           placeholder="Write your review..."
         ></textarea>
 
-        {/* Validation Error */}
         {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
 

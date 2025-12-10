@@ -34,7 +34,6 @@ const TopScholarships = () => {
   return (
     <div className={`py-14 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
       <div className="max-w-7xl mx-auto px-4 md:px-10">
-        {/* HEADER */}
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -46,7 +45,6 @@ const TopScholarships = () => {
           Top Scholarships
         </motion.h2>
 
-        {/* LOADER */}
         {loading ? (
           <Loader />
         ) : (
@@ -80,7 +78,6 @@ const TopScholarships = () => {
                     }
                   `}
                 >
-                  {/* Image */}
                   <motion.img
                     src={sch.universityImage}
                     alt={sch.scholarshipName}
@@ -89,7 +86,6 @@ const TopScholarships = () => {
                     transition={{ duration: 0.4 }}
                   />
 
-                  {/* Title */}
                   <h3
                     className={`text-lg font-bold mb-1 ${
                       theme ? "text-gray-900" : "text-white"
@@ -98,7 +94,6 @@ const TopScholarships = () => {
                     {sch.scholarshipName}
                   </h3>
 
-                  {/* University */}
                   <p
                     className={`flex items-center gap-1 text-sm mb-1 font-medium ${
                       theme ? "text-blue-600" : "text-blue-400"
@@ -108,7 +103,6 @@ const TopScholarships = () => {
                     {sch.universityName}
                   </p>
 
-                  {/* Subject Category */}
                   <p
                     className={`text-sm mb-1 ${
                       theme ? "text-gray-700" : "text-gray-300"
@@ -117,7 +111,6 @@ const TopScholarships = () => {
                     🎓 {sch.subjectCategory}
                   </p>
 
-                  {/* Category + Degree */}
                   <p
                     className={`flex items-center gap-1 text-sm mb-1 ${
                       theme ? "text-gray-700" : "text-gray-300"
@@ -127,7 +120,6 @@ const TopScholarships = () => {
                     {sch.scholarshipCategory} — {sch.degree}
                   </p>
 
-                  {/* Location */}
                   <p
                     className={`flex items-center gap-1 text-sm mb-1 ${
                       theme ? "text-gray-700" : "text-gray-300"
@@ -137,7 +129,6 @@ const TopScholarships = () => {
                     {sch.universityCity}, {sch.universityCountry}
                   </p>
 
-                  {/* Application Fee */}
                   <p
                     className={`flex items-center gap-1 text-sm mb-3 ${
                       theme ? "text-gray-700" : "text-gray-300"
@@ -152,7 +143,6 @@ const TopScholarships = () => {
                     </span>
                   </p>
 
-                  {/* Deadline */}
                   <p
                     className={`flex items-center gap-1 text-sm mb-5 ${
                       theme ? "text-gray-700" : "text-gray-300"
@@ -165,7 +155,6 @@ const TopScholarships = () => {
                     </span>
                   </p>
 
-                  {/* CTA BUTTON */}
                   <motion.button
                     onClick={() => navigate(`/scholarship/${sch._id}`)}
                     whileTap={{ scale: 0.95 }}

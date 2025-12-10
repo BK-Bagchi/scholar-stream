@@ -41,7 +41,6 @@ const PaymentSuccess = () => {
           theme ? "bg-white text-gray-800" : "bg-gray-900 text-gray-200"
         }`}
       >
-        {/* Icon + Title */}
         <div className="flex flex-col items-center text-center gap-3">
           <CheckCircle2
             className={`w-14 h-14 ${
@@ -63,7 +62,6 @@ const PaymentSuccess = () => {
           </p>
         </div>
 
-        {/* Details Section */}
         <div
           className={`mt-6 p-5 rounded-xl border transition ${
             theme ? "border-gray-200 bg-gray-50" : "border-gray-700 bg-gray-800"
@@ -99,7 +97,6 @@ const PaymentSuccess = () => {
           </div>
         </div>
 
-        {/* Action Button */}
         <div className="mt-8">
           <button
             className={`w-full py-3 rounded-xl font-semibold transition-all shadow-md

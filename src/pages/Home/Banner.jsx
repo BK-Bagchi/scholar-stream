@@ -43,7 +43,6 @@ const Banner = () => {
   return (
     <section className="w-full py-10 md:py-16 px-4 md:px-12 bg-linear-to-br from-[#233C69] via-[#3E2451] to-[#22544B]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
-        {/* LEFT CONTENT */}
         <motion.div
           initial={{ opacity: 0, x: -60 }}
           animate={{ opacity: 1, x: 0 }}
@@ -67,7 +66,6 @@ const Banner = () => {
           </button>
         </motion.div>
 
-        {/* RIGHT CAROUSEL */}
         <div className="w-full md:w-1/2 relative h-[280px] md:h-[420px] overflow-hidden rounded-xl shadow-lg">
           <AnimatePresence>
             <motion.img
@@ -82,7 +80,6 @@ const Banner = () => {
             />
           </AnimatePresence>
 
-          {/* NEXT / PREV BUTTONS */}
           <button
             onClick={prevSlide}
             className="absolute top-1/2 left-3 -translate-y-1/2 bg-white/80 backdrop-blur px-3 py-2 rounded-full shadow hover:bg-blue-600 hover:text-white transition"
@@ -97,7 +94,6 @@ const Banner = () => {
             ❯
           </button>
 
-          {/* DOTS */}
           <div className="absolute bottom-4 w-full flex justify-center gap-2">
             {slides.map((_, idx) => (
               <div

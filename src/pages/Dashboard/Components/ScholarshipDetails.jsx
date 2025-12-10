@@ -9,7 +9,6 @@ const ScholarshipDetails = ({ selectedApp }) => {
         theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
       }`}
     >
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h3
           className={`text-2xl font-bold ${
@@ -20,9 +19,7 @@ const ScholarshipDetails = ({ selectedApp }) => {
         </h3>
       </div>
 
-      {/* Details Section */}
       <div className="space-y-4 text-sm">
-        {/* Applicant Info */}
         <div>
           <h4
             className={`font-semibold mb-1 ${
@@ -43,7 +40,6 @@ const ScholarshipDetails = ({ selectedApp }) => {
           </div>
         </div>
 
-        {/* University Info */}
         <div>
           <h4
             className={`font-semibold mb-1 ${
@@ -67,7 +63,6 @@ const ScholarshipDetails = ({ selectedApp }) => {
           </div>
         </div>
 
-        {/* Fees Section */}
         <div>
           <h4
             className={`font-semibold mb-1 ${
@@ -88,7 +83,6 @@ const ScholarshipDetails = ({ selectedApp }) => {
           </div>
         </div>
 
-        {/* Status Section */}
         <div>
           <h4
             className={`font-semibold mb-1 ${
@@ -114,7 +108,6 @@ const ScholarshipDetails = ({ selectedApp }) => {
           </div>
         </div>
 
-        {/* Feedback */}
         <div>
           <h4
             className={`font-semibold mb-1 ${

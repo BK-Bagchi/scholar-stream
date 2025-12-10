@@ -50,7 +50,6 @@ const MyProfile = () => {
                 : "bg-gray-800 border-gray-700 hover:border-blue-400"
             }`}
           >
-            {/* Profile Image */}
             <div className="flex flex-col items-center">
               <img
                 src={user?.avatar || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"}
@@ -76,7 +75,6 @@ const MyProfile = () => {
             </div>
 
             <div className="mt-6 space-y-4">
-              {/* Name */}
               <div
                 className={`flex items-center gap-3 p-4 rounded-lg border transition ${
                   theme
@@ -103,7 +101,6 @@ const MyProfile = () => {
                 </div>
               </div>
 
-              {/* Email */}
               <div
                 className={`flex items-center gap-3 p-4 rounded-lg border transition ${
                   theme
@@ -130,7 +127,6 @@ const MyProfile = () => {
                 </div>
               </div>
 
-              {/* Role */}
               <div
                 className={`flex items-center gap-3 p-4 rounded-lg border transition ${
                   theme

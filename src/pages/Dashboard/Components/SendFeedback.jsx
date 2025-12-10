@@ -72,7 +72,6 @@ const SendFeedback = ({
         placeholder="Write your feedback..."
       ></textarea>
 
-      {/* Error Message */}
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
       <button

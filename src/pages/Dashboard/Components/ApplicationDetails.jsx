@@ -15,7 +15,6 @@ const ApplicationDetails = ({ selectedApp }) => {
         theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
       }`}
     >
-      {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h3
           className={`text-xl font-semibold ${
@@ -26,7 +25,6 @@ const ApplicationDetails = ({ selectedApp }) => {
         </h3>
       </div>
 
-      {/* Details */}
       <div
         className={`space-y-3 text-sm ${
           theme ? "text-gray-700" : "text-gray-300"

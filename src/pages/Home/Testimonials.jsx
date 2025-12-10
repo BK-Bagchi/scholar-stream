@@ -44,7 +44,6 @@ const Testimonials = () => {
           and boosted their academic journey.
         </p>
 
-        {/* Cards Animation Wrapper */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           initial="hidden"
@@ -67,7 +66,6 @@ const Testimonials = () => {
               className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 
                 shadow-lg hover:shadow-2xl transition cursor-pointer"
             >
-              {/* Avatar */}
               <motion.div
                 className="flex justify-center mb-4"
                 whileHover={{ scale: 1.1 }}
@@ -80,7 +78,6 @@ const Testimonials = () => {
                 />
               </motion.div>
 
-              {/* Stars */}
               <motion.div
                 className="flex justify-center mb-3"
                 initial={{ opacity: 0 }}
@@ -95,13 +92,10 @@ const Testimonials = () => {
                 ))}
               </motion.div>
 
-              {/* Feedback */}
               <p className="text-gray-100 italic mb-4">“{t.feedback}”</p>
 
-              {/* Name */}
               <h3 className="text-lg font-semibold">{t.name}</h3>
 
-              {/* Role */}
               <p className="text-sm text-gray-300">{t.role}</p>
             </motion.div>
           ))}

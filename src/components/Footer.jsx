@@ -12,7 +12,6 @@ const Footer = () => {
     >
       <div className="max-w-7xl mx-auto px-4 py-10 md:px-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 md:gap-0">
-          {/* Brand Section */}
           <div className="flex flex-col gap-3">
             <h1
               className={`text-2xl font-bold tracking-wide ${
@@ -32,7 +31,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Social Links */}
           <div className="flex flex-col gap-2">
             <h2
               className={`font-semibold ${
@@ -86,7 +84,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <div
           className={`mt-8 border-t pt-4 text-center text-sm transition ${
             theme

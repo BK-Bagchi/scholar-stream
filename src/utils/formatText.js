@@ -1,10 +1,7 @@
 const formatText = (input) => {
   if (!input) return "";
 
-  // Replace underscores and hyphens with spaces
   let refined = input.replace(/[_-]+/g, " ");
-
-  // Convert to lowercase, then capitalize each word
   refined = refined
     .toLowerCase()
     .split(" ")

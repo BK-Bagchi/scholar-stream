@@ -72,7 +72,6 @@ const AllReviews = () => {
                       : "bg-gray-800 border-gray-700 hover:shadow-lg"
                   }`}
                 >
-                  {/* User Section */}
                   <div className="flex items-center gap-3 mb-4">
                     <img
                       src={rev.userImage}
@@ -97,7 +96,6 @@ const AllReviews = () => {
                     </div>
                   </div>
 
-                  {/* Scholarship Info */}
                   <div className="mb-3 flex gap-3 items-center">
                     <p
                       className={`text-sm font-semibold ${
@@ -115,7 +113,6 @@ const AllReviews = () => {
                     </p>
                   </div>
 
-                  {/* University */}
                   <div className="mb-3 flex gap-3 items-center">
                     <p
                       className={`text-sm font-semibold ${
@@ -133,7 +130,6 @@ const AllReviews = () => {
                     </p>
                   </div>
 
-                  {/* Comment */}
                   <div className="mb-3 flex gap-3">
                     <p
                       className={`text-sm font-semibold ${
@@ -151,7 +147,6 @@ const AllReviews = () => {
                     </p>
                   </div>
 
-                  {/* Date + Rating */}
                   <div className="flex justify-between items-center mt-4">
                     <p
                       className={`text-sm ${
@@ -167,7 +162,6 @@ const AllReviews = () => {
                     </div>
                   </div>
 
-                  {/* Delete Button */}
                   <button
                     onClick={() => {
                       handleDelete(rev._id);

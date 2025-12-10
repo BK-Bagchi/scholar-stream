@@ -130,7 +130,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`shadow-sm sticky top-0 z-50 ${
+      className={`shadow-sm sticky top-0 z-50 border-b ${
         theme
           ? "bg-electricBlue border-gray-200"
           : "bg-gray-900 border-gray-700"

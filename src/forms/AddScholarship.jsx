@@ -61,9 +61,7 @@ const AddScholarship = () => {
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
           }`}
         >
-          {/* --- Grid Inputs --- */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Scholarship Name */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -89,7 +87,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* University Name */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -114,7 +111,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* University Image */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -140,7 +136,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Country */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -163,7 +158,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* City */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -186,7 +180,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* World Rank */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -211,7 +204,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Subject Category */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -236,7 +228,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Scholarship Category */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -265,7 +256,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Degree */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -293,7 +283,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Tuition Fees */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -318,7 +307,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Application Fees */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -343,7 +331,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Service Charge */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -368,7 +355,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Deadline */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -393,7 +379,6 @@ const AddScholarship = () => {
               )}
             </div>
 
-            {/* Posted User Email */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -428,7 +413,6 @@ const AddScholarship = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <div className="mt-8 flex justify-center">
             <button
               type="submit"

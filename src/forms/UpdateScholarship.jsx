@@ -87,9 +87,7 @@ const UpdateScholarship = ({
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
           }`}
         >
-          {/* --- Grid Inputs --- */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Scholarship Name */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -115,7 +113,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* University Name */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -140,7 +137,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* University Image */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -166,7 +162,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Country */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -189,7 +184,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* City */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -212,7 +206,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* World Rank */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -237,7 +230,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Subject Category */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -262,7 +254,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Scholarship Category */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -291,7 +282,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Degree */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -319,7 +309,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Tuition Fees */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -344,7 +333,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Application Fees */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -369,7 +357,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Service Charge */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -394,7 +381,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Deadline */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -419,7 +405,6 @@ const UpdateScholarship = ({
               )}
             </div>
 
-            {/* Posted User Email */}
             <div>
               <label
                 className={`text-sm font-medium ${
@@ -454,7 +439,6 @@ const UpdateScholarship = ({
             )}
           </div>
 
-          {/* Submit Button */}
           <div className="mt-8 flex justify-center">
             <button
               type="submit"

@@ -39,7 +39,6 @@ const ContactFAQ = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
-        {/* ---- Title ---- */}
         <motion.h2
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -50,9 +49,7 @@ const ContactFAQ = () => {
           Contact Us & FAQs
         </motion.h2>
 
-        {/* ---- Contact Section ---- */}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Contact Info */}
           <motion.div
             initial={{ y: 40, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -108,7 +105,6 @@ const ContactFAQ = () => {
             </div>
           </motion.div>
 
-          {/* Contact Form */}
           <motion.div
             initial={{ y: 40, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -167,7 +163,6 @@ const ContactFAQ = () => {
           </motion.div>
         </div>
 
-        {/* ---- FAQ Section ---- */}
         <motion.div
           initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -218,7 +213,6 @@ const ContactFAQ = () => {
                   </motion.div>
                 </button>
 
-                {/* FAQ Expand Animation */}
                 <AnimatePresence>
                   {openFAQ === faq.id && (
                     <motion.p

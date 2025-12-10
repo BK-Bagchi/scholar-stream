@@ -60,7 +60,6 @@ const MyReviews = () => {
           My Reviews
         </h2>
 
-        {/* ------------ CARD CONTAINER ------------ */}
         {loading ? (
           <Loader />
         ) : reviews.length > 0 ? (
@@ -74,7 +73,6 @@ const MyReviews = () => {
                     : "bg-gray-800 border-gray-700 hover:shadow-lg"
                 }`}
               >
-                {/* User Section */}
                 <div className="flex items-center gap-3 mb-4">
                   <img
                     src={rev.userImage}
@@ -99,7 +97,6 @@ const MyReviews = () => {
                   </div>
                 </div>
 
-                {/* Scholarship */}
                 <p
                   className={`text-sm mb-1 ${
                     theme ? "text-gray-700" : "text-gray-300"
@@ -108,7 +105,6 @@ const MyReviews = () => {
                   <b>Scholarship:</b> {rev.scholarshipId.scholarshipName}
                 </p>
 
-                {/* University */}
                 <p
                   className={`text-sm mb-1 ${
                     theme ? "text-gray-700" : "text-gray-300"
@@ -117,7 +113,6 @@ const MyReviews = () => {
                   <b>University:</b> {rev.universityName}
                 </p>
 
-                {/* Comment */}
                 <p
                   className={`text-sm mb-2 ${
                     theme ? "text-gray-700" : "text-gray-300"
@@ -126,13 +121,11 @@ const MyReviews = () => {
                   <b>Review:</b> {rev.reviewComment}
                 </p>
 
-                {/* Rating */}
                 <div className="flex items-center gap-1 mb-2">
                   <b>Rating:</b> {rev.ratingPoint}
                   <Star size={16} className="text-yellow-400" />
                 </div>
 
-                {/* Date */}
                 <p
                   className={`text-xs mb-4 ${
                     theme ? "text-gray-500" : "text-gray-400"
@@ -141,7 +134,6 @@ const MyReviews = () => {
                   {new Date(rev.reviewDate).toLocaleDateString()}
                 </p>
 
-                {/* Action Buttons */}
                 <div className="flex justify-between mt-3">
                   <button
                     onClick={() => {
@@ -175,7 +167,7 @@ const MyReviews = () => {
           </p>
         )}
 
-        {/* KEEP YOUR EDIT + DELETE MODALS BELOW */}
+        {/* EDIT MODAL */}
         {showEditModal && selectedReview && (
           <Modal
             setActiveModal={setShowEditModal}

@@ -96,7 +96,6 @@ const ScholarshipDetails = () => {
   return (
     <div className={`py-12 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* Header */}
         <h2
           className={`text-3xl font-bold mb-8 text-center transition ${
             theme ? "text-blue-600" : "text-blue-400"
@@ -105,7 +104,6 @@ const ScholarshipDetails = () => {
           Scholarship Details
         </h2>
 
-        {/* Main Card */}
         {loading ? (
           <Loader />
         ) : scholarships.length > 0 ? (
@@ -114,7 +112,6 @@ const ScholarshipDetails = () => {
               theme ? "bg-white border-gray-300" : "bg-gray-900 border-gray-700"
             }`}
           >
-            {/* Top Image */}
             <div className="relative w-full h-64 mb-6">
               <img
                 src={scholarship.universityImage}
@@ -126,7 +123,6 @@ const ScholarshipDetails = () => {
               </span>
             </div>
 
-            {/* Title */}
             <h3
               className={`text-3xl font-bold mb-1 ${
                 theme ? "text-gray-900" : "text-white"
@@ -135,7 +131,6 @@ const ScholarshipDetails = () => {
               {scholarship.scholarshipName}
             </h3>
 
-            {/* University */}
             <p
               className={`flex items-center gap-1 text-lg mb-4 ${
                 theme ? "text-blue-600" : "text-blue-400"
@@ -145,9 +140,7 @@ const ScholarshipDetails = () => {
               {scholarship.universityName}
             </p>
 
-            {/* Info Section */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-base">
-              {/* World Rank */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -162,7 +155,6 @@ const ScholarshipDetails = () => {
                 </span>
               </p>
 
-              {/* Deadline */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -179,7 +171,6 @@ const ScholarshipDetails = () => {
                 </span>
               </p>
 
-              {/* Location */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -194,7 +185,6 @@ const ScholarshipDetails = () => {
                 </span>
               </p>
 
-              {/* Scholarship Category */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -209,7 +199,6 @@ const ScholarshipDetails = () => {
                 </span>
               </p>
 
-              {/* Degree */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -224,7 +213,6 @@ const ScholarshipDetails = () => {
                 </span>
               </p>
 
-              {/* Subject */}
               <p
                 className={`flex items-center gap-1 ${
                   theme ? "text-blue-600" : "text-blue-400"
@@ -240,7 +228,6 @@ const ScholarshipDetails = () => {
               </p>
             </div>
 
-            {/* Tuition & Charges */}
             <div
               className={`p-4 rounded-xl border ${
                 theme
@@ -276,7 +263,6 @@ const ScholarshipDetails = () => {
               </p>
             </div>
 
-            {/* Apply Button */}
             <button
               disabled={isApplied}
               onClick={() => handleApplication(scholarship)}
@@ -299,7 +285,6 @@ const ScholarshipDetails = () => {
           </div>
         )}
 
-        {/* Reviews Section */}
         <div
           className={`rounded-xl p-6 border transition shadow-sm ${
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
@@ -326,7 +311,6 @@ const ScholarshipDetails = () => {
                       : "bg-gray-800 border-gray-700 hover:border-blue-400"
                   }`}
                 >
-                  {/* Reviewer Info */}
                   <div className="flex items-center gap-3 mb-3">
                     <img
                       src={rev.userImage}
@@ -353,7 +337,6 @@ const ScholarshipDetails = () => {
                     </div>
                   </div>
 
-                  {/* University */}
                   <p
                     className={`text-sm font-medium mb-2 ${
                       theme ? "text-gray-700" : "text-gray-300"
@@ -367,7 +350,6 @@ const ScholarshipDetails = () => {
                     </span>
                   </p>
 
-                  {/* Rating */}
                   <div className="flex items-center gap-1 mb-2">
                     {[...Array(rev.ratingPoint)].map((_, i) => (
                       <Star
@@ -378,7 +360,6 @@ const ScholarshipDetails = () => {
                     ))}
                   </div>
 
-                  {/* Comment */}
                   <p className={`${theme ? "text-gray-700" : "text-gray-300"}`}>
                     {rev.reviewComment}
                   </p>
