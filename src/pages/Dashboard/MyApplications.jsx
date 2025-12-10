@@ -125,20 +125,16 @@ const MyApplications = () => {
                       key={app._id}
                       className={`text-sm border-t transition ${
                         theme
-                          ? "border-gray-300 hover:bg-gray-100"
-                          : "border-gray-700 hover:bg-gray-700/40"
+                          ? "border-gray-300 hover:bg-gray-100 text-gray-700"
+                          : "border-gray-700 hover:bg-gray-700/40 text-gray-200"
                       }`}
                     >
-                      {/* University Name */}
                       <td className="p-4 font-medium">{app.universityName}</td>
 
-                      {/* Degree */}
                       <td className="p-4">{app.degree}</td>
 
-                      {/* Scholarship Category */}
                       <td className="p-4">{app.scholarshipCategory}</td>
 
-                      {/* Fees */}
                       <td className="p-4">
                         <div className="flex flex-col">
                           <span>
@@ -153,7 +149,6 @@ const MyApplications = () => {
                         </div>
                       </td>
 
-                      {/* Application Status */}
                       <td className="p-4">
                         <span
                           className={`px-2 py-1 rounded-md text-xs font-semibold ${
@@ -168,7 +163,6 @@ const MyApplications = () => {
                         </span>
                       </td>
 
-                      {/* Payment Status */}
                       <td className="p-4">
                         <span
                           className={`px-2 py-1 rounded-md text-xs font-semibold ${
@@ -181,14 +175,11 @@ const MyApplications = () => {
                         </span>
                       </td>
 
-                      {/* Application Date */}
                       <td className="p-4">
                         {new Date(app.applicationDate).toLocaleDateString()}
                       </td>
 
-                      {/* Actions */}
                       <td className="p-4 flex gap-2 flex-wrap">
-                        {/* Details */}
                         <button
                           onClick={() => {
                             setSelectedApp(app);
@@ -199,14 +190,12 @@ const MyApplications = () => {
                           <Eye size={16} /> Details
                         </button>
 
-                        {/* Edit */}
                         {app.applicationStatus === "pending" && (
                           <button className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
                             <Pencil size={16} /> Edit
                           </button>
                         )}
 
-                        {/* Pay */}
                         {app.applicationStatus === "pending" &&
                           app.paymentStatus === "unpaid" && (
                             <button
@@ -217,7 +206,6 @@ const MyApplications = () => {
                             </button>
                           )}
 
-                        {/* Delete */}
                         {app.applicationStatus === "pending" && (
                           <button
                             className="px-3 py-1 text-sm flex items-center gap-1 rounded-md bg-red-500 text-white hover:bg-red-600"
@@ -227,7 +215,6 @@ const MyApplications = () => {
                           </button>
                         )}
 
-                        {/* Review */}
                         {app.applicationStatus === "approved" && (
                           <button
                             onClick={() => {

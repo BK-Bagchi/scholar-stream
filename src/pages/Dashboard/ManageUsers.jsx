@@ -90,14 +90,12 @@ export default function ManageUsers() {
         theme ? "bg-gray-50 text-gray-900" : "bg-gray-900 text-gray-100"
       }`}
     >
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold flex items-center gap-2">
           <Shield size={26} />
           Manage Users
         </h1>
 
-        {/* Filter Dropdown */}
         <div className="relative">
           <select
             value={filter}
@@ -121,7 +119,6 @@ export default function ManageUsers() {
         </div>
       </div>
 
-      {/* Table */}
       <div
         className={`overflow-hidden rounded-2xl shadow-md ${
           theme ? "bg-white" : "bg-gray-800"
@@ -163,7 +160,6 @@ export default function ManageUsers() {
 
                     <td className="py-3 px-4">
                       <div className="flex gap-3 items-center">
-                        {/* Change Role Dropdown */}
                         <select
                           value={user.role}
                           onChange={(e) =>
@@ -180,7 +176,6 @@ export default function ManageUsers() {
                           <option value="admin">Admin</option>
                         </select>
 
-                        {/* Delete User Button */}
                         <button
                           onClick={() => handleDeleteUser(user._id)}
                           className={`flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium transition ${

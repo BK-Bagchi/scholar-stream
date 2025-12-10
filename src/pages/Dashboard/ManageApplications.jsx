@@ -122,33 +122,25 @@ const ManageApplications = () => {
                       key={app._id}
                       className={`text-sm border-t transition ${
                         theme
-                          ? "border-gray-300 hover:bg-gray-100"
-                          : "border-gray-700 hover:bg-gray-700/40"
+                          ? "border-gray-300 hover:bg-gray-100 text-gray-700"
+                          : "border-gray-700 hover:bg-gray-700/40 text-gray-200"
                       }`}
                     >
-                      {/* Applicant Name */}
                       <td className="p-4">{app.userName}</td>
 
-                      {/* Email */}
                       <td className="p-4">{app.userEmail}</td>
 
-                      {/* University */}
                       <td className="p-4">{app.universityName}</td>
 
-                      {/* Feedback */}
                       <td className="p-4">{app.feedback || "N/A"}</td>
 
-                      {/* Application Status */}
                       <td className="p-4">
                         {formatText(app.applicationStatus)}
                       </td>
 
-                      {/* Payment Status */}
                       <td className="p-4">{formatText(app.paymentStatus)}</td>
 
-                      {/* Actions */}
                       <td className="p-4 flex gap-2 flex-wrap">
-                        {/* Details */}
                         <button
                           onClick={() => {
                             setSelectedApp(app);
@@ -159,7 +151,6 @@ const ManageApplications = () => {
                           <Eye size={16} /> Details
                         </button>
 
-                        {/* Feedback */}
                         <button
                           onClick={() => {
                             setSelectedApp(app);
@@ -170,7 +161,6 @@ const ManageApplications = () => {
                           <MessageCircle size={16} /> Feedback
                         </button>
 
-                        {/* Status Update */}
                         <select
                           defaultValue={app.applicationStatus}
                           onChange={(e) =>
@@ -190,7 +180,6 @@ const ManageApplications = () => {
                           </option>
                         </select>
 
-                        {/* Cancel */}
                         <button
                           disabled={app.applicationStatus === "rejected"}
                           onClick={() => handleRejectApplication(app._id)}

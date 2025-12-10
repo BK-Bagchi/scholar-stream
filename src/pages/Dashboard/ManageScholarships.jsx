@@ -54,7 +54,6 @@ const ManageScholarships = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
-        {/* Title */}
         <h2
           className={`text-3xl font-bold mb-8 text-center transition ${
             theme ? "text-blue-600" : "text-blue-400"
@@ -63,7 +62,6 @@ const ManageScholarships = () => {
           Manage Scholarships
         </h2>
 
-        {/* Table Container */}
         <div
           className={`overflow-x-auto rounded-xl border transition ${
             theme ? "bg-white border-gray-300" : "bg-gray-800 border-gray-700"
@@ -73,7 +71,6 @@ const ManageScholarships = () => {
             <Loader />
           ) : (
             <table className="w-full text-left">
-              {/* Table Head */}
               <thead>
                 <tr
                   className={`text-sm ${
@@ -94,7 +91,6 @@ const ManageScholarships = () => {
                 </tr>
               </thead>
 
-              {/* Table Body */}
               <tbody>
                 {scholarships.length > 0 ? (
                   scholarships.map((sch) => (
@@ -102,8 +98,8 @@ const ManageScholarships = () => {
                       key={sch.id}
                       className={`border-t transition ${
                         theme
-                          ? "border-gray-200 hover:bg-gray-100"
-                          : "border-gray-700 hover:bg-gray-700/40"
+                          ? "border-gray-200 hover:bg-gray-100 text-gray-700"
+                          : "border-gray-700 hover:bg-gray-700/40 text-gray-200"
                       }`}
                     >
                       <td className="px-6 py-4 font-medium flex items-center gap-2">
@@ -131,10 +127,8 @@ const ManageScholarships = () => {
                       <td className="px-6 py-4">{sch.degree || "Null"}</td>
                       <td className="px-6 py-4">{sch.tuitionFees || "Null"}</td>
 
-                      {/* Actions */}
                       <td className="px-6 py-4 text-center">
                         <div className="flex justify-center gap-3">
-                          {/* Update Button */}
                           <button
                             className={`flex items-center gap-1 px-4 py-2 rounded-md text-sm transition ${
                               theme
@@ -150,7 +144,6 @@ const ManageScholarships = () => {
                             Update
                           </button>
 
-                          {/* Delete Button */}
                           <button
                             className={`flex items-center gap-1 px-4 py-2 rounded-md text-sm transition ${
                               theme
