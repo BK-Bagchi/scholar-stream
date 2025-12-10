@@ -15,6 +15,7 @@ const ScholarshipDetails = () => {
 
   const [scholarships, setScholarships] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviewLoading, setReviewLoading] = useState(true);
 
@@ -41,16 +42,27 @@ const ScholarshipDetails = () => {
       }
     };
 
+    const fetchUserApplications = async () => {
+      try {
+        const res = await ApplicationAPI.getUserApplications();
+        setApplications(res.data.applications);
+      } catch (error) {
+        console.error(error.response.data.message);
+      }
+    };
+
     fetchScholarships();
     fetchReviews();
+    fetchUserApplications();
   }, []);
   // console.log(scholarships);
   // console.log(reviews);
+  // console.log(applications);
 
   const filterReviews = reviews.filter((rev) => rev.scholarshipId === id);
 
   const scholarship = scholarships.find((s) => s._id === id);
-  // console.log(scholarship);
+  const isApplied = applications.some((app) => app.scholarshipId._id === id);
 
   const handleApplication = async (scholarship) => {
     const confirmation = window.confirm("Are you sure you want to apply?");
@@ -257,15 +269,17 @@ const ScholarshipDetails = () => {
 
             {/* Apply Button */}
             <button
-              // onClick={() => navigate(`/checkout/${scholarship._id}`)}
+              disabled={isApplied}
               onClick={() => handleApplication(scholarship)}
               className={`w-full py-3 text-center rounded-xl font-semibold transition-all text-white shadow ${
                 theme
                   ? "bg-blue-600 hover:bg-blue-700"
                   : "bg-blue-500 hover:bg-blue-600"
-              }`}
+              } ${isApplied ? "cursor-not-allowed" : "cursor-pointer"}`}
             >
-              Apply for Scholarship
+              {isApplied
+                ? "Applied for this Scholarship"
+                : "Apply for Scholarship"}
             </button>
           </div>
         ) : (
