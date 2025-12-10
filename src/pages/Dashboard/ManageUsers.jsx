@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { UserCog, Trash2, ChevronDown, Shield } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../hooks/useAuth";
 import { ProfileAPI } from "../../api";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
@@ -8,6 +9,7 @@ import formatText from "../../utils/formatText";
 
 export default function ManageUsers() {
   const { theme } = useTheme();
+  const { user } = useAuth();
   const [filter, setFilter] = useState("All");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,6 +34,11 @@ export default function ManageUsers() {
       : users.filter((u) => u.role.toLowerCase() === filter.toLowerCase());
 
   const handleRoleChange = async (userId, newRole) => {
+    if (user._id === userId) {
+      toast.error("You cannot change your own role.");
+      return;
+    }
+
     const confirmation = window.confirm(
       `Are you sure you want to change the role for user to ${newRole}?`
     );
@@ -55,6 +62,11 @@ export default function ManageUsers() {
   };
 
   const handleDeleteUser = async (userId) => {
+    if (user._id === userId) {
+      toast.error("You cannot delete yourself.");
+      return;
+    }
+
     const confirmation = window.confirm(
       "Are you sure you want to delete this user?"
     );
