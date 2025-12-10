@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 //prettier-ignore
 import { Star, Globe, Calendar, MapPin, BadgeDollarSign, GraduationCap, Layers, Badge, LibraryBig } from "lucide-react";
-
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "../hooks/useTheme";
-import { ApplicationAPI, ReviewAPI, ScholarshipAPI } from "../api";
+import { ApplicationAPI, PaymentAPI, ReviewAPI, ScholarshipAPI } from "../api";
 import Loader from "../components/Loader";
 
 const ScholarshipDetails = () => {
   const { user } = useAuth();
   const { theme } = useTheme();
-  const navigate = useNavigate();
   const { id } = useParams();
 
   const [scholarships, setScholarships] = useState([]);
@@ -71,11 +69,12 @@ const ScholarshipDetails = () => {
     };
 
     try {
-      const res = await ApplicationAPI.applyScholarship(data);
-      toast.success(res.data.message);
+      const res = await PaymentAPI.makePayment(data);
+
+      window.location.href = res.data.url;
     } catch (error) {
       console.error(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.error || "Payment error");
     }
   };
 
