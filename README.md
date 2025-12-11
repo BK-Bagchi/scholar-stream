@@ -1,6 +1,8 @@
 # 📘 ScholarStream
 
-ScholarStream is a modern web application that helps students connect with the perfect study partners based on subjects, expertise level, and learning preferences. Whether you prefer solo focus sessions, group collaboration, or online discussions — ScholarStream makes it easy to find, connect, and grow together.
+ScholarStream is a Scholarship Management & Application Platform that bridges the gap between students and global scholarship opportunities. It allows universities and institutions to publish scholarships, while students can easily search, explore, apply, and track their application progress—all in one place.
+
+Designed with a clean UI, secure backend, and seamless payment integration **(Stripe)**, ScholarStream aims to simplify the complex world of scholarship discovery and application management.
 
 ---
 
@@ -8,66 +10,149 @@ ScholarStream is a modern web application that helps students connect with the p
 
 ### 🧑‍🎓 User & Authentication
 
-- Secure registration and login via Email/Password or Google Sign-In
+- Secure user registration & login using JWT
+- Role-based access system (Student, Moderator, Admin)
+- Separate dashboards based on user type
+- Profile creation and application tracking for students
 
-- JWT-based authentication system integrated with Firebase and backend APIs
+---
 
-- Profile management with personalized study preferences
+## 🎓 Scholarship Discovery
 
-### 🤝 Partner Matching
+- Browse hundreds of scholarships added by universities or organizations
+- View detailed information including eligibility, requirements, deadlines, and fees
+- Responsive search system supporting keywords like:
 
-- Discover and connect with study partners filtered by:
+  - Scholarship Name
+  - University Name
+  - Subject Category
+  - Degree Type
 
-- Subject / Topic
+- Filter scholarships by:
 
-- Study Mode (Online / Offline / Hybrid)
+  - Scholarship Category (Full Fund / Partial / Merit Based)
+  - Subject Category
+  - Country / Location
 
-- Expertise Level (Beginner / Intermediate / Expert)
+- Pagination-enabled results for a smooth experience
 
-- Smart filtering system showing top relevant partners
+---
 
-### 💬 Collaboration
+## 📝 Scholarship Application System
 
-- Connect instantly and manage your Study Connections
+### Students Can:
 
-- Personalized dashboard showing your active and pending connections
+- Apply for scholarships by submitting necessary data
+- Complete application fee payment via **Stripe (secure payment gateway)**
+- View and track their application status:
+  - **Pending → Processing → Completed**
+- Receive moderator feedback or updates instantly
 
-### 🎨 Elegant UI with Theme Support
+### Moderators Can:
 
-- Fully responsive interface built using React + Tailwind CSS + DaisyUI
+- Review submitted applications
+- Update the status:
+  - **Pending → Processing → Completed**
+- Provide feedback or reject invalid applications
 
-- Dynamic Light / Dark Theme powered by React Context
+---
 
-- Beautiful, intuitive layouts for home, login, register, and dashboard pages
+## 👨‍💼 Admin Panel
 
-### ⚙️ Backend Integration
+Admins have advanced control over the platform:
 
-- RESTful API built with Node.js + Express + Mongoose + MongoDB
+### 🔧 Scholarship Management
 
-- Secure token issuing and validation with custom middleware
+- Add new scholarships
+- Edit or update scholarship details
+- Remove or archive outdated opportunities
 
-### 🛠️ Tech Stack
+### 👥 User Management
 
-- Layer || Technology
-- Frontend || React, Tailwind CSS, DaisyUI, Lucide Icons
-- Backend || Node.js, Express.js
-- Database || MongoDB (Mongoose)
-- Auth || Firebase Authentication + JWT
-- Hosting || Netlify (Frontend) + Render (Backend)
+- Manage Students, Moderators, and Admins
+- Assign roles
+- Remove inactive or fraudulent accounts
 
-### 🧩 Key Modules
+### 📊 Analytics Dashboard
 
-- AuthContext — manages authentication state globally
+- Total scholarships
+- Total applications
+- Paid vs Unpaid applications
+- Revenue tracking from application fees
+- Category-based application insights
+- Fully dynamic charts and statistical metrics
 
-- ThemeContext — toggles between light and dark mode
+---
 
-- PartnerCard — reusable component displaying user info, level, and actions
+## 💳 Integrated Payment Gateway
 
-- Connections API — handles adding/removing partner connections
+ScholarStream uses **Stripe** for real-time payment processing.
 
-### 🧑‍💻 Author
+### Supports:
 
-#### Dipto Bagchi
+- Success URL with Session ID-based data retrieval
+- Cancel/Failed URL routing with complete payment data verification
+- Proper refund or failed status handling
+- Secure backend validation to prevent fraudulent transactions
 
-- 🌐 Passionate MERN Stack Developer
-- 💡 Building real-world web applications with creativity and precision
+---
+
+## 🎨 Elegant UI / UX
+
+A polished, modern interface built using **React + Tailwind CSS**:
+
+- Dark/Light theme toggling using custom ThemeContext
+- Smooth animations, clean components, and consistent color palette
+- Reusable Card components for Scholarships & Applications
+- Fully responsive layout for mobile, tablet, and desktop
+
+---
+
+## ⚙️ Backend Functionality
+
+Powered by Node.js & Express.js with a robust architectural setup:
+
+- RESTful API structure
+- MongoDB database with Mongoose models
+- Middleware for:
+
+  - Authentication
+  - Authorization
+  - Payment verification
+  - Application validation
+
+- Secure route handling & error responses
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer          | Technology                              |
+| -------------- | --------------------------------------- |
+| Frontend       | React, Tailwind CSS, Lucide Icons       |
+| State Mgmt     | Context API (AuthContext, ThemeContext) |
+| Backend        | Node.js, Express.js                     |
+| Database       | MongoDB + Mongoose                      |
+| Authentication | JWT                                     |
+| Payment        | Stripe Integration                      |
+| Hosting        | Netlify (Frontend), Render (Backend)    |
+
+---
+
+## 🧩 Key Modules
+
+- **AuthContext** — manages authentication globally
+- **ThemeContext** — handles Light/Dark UI state
+- **Payment Handler** — processes success, fail, and cancel URLs
+- **Admin Dashboard Module** — dynamic charts + metrics
+- **Application Reviewer** — complete moderator workflow
+
+---
+
+## 🧑‍💻 Author
+
+### **Dipto Bagchi**
+
+- 🌐 MERN Stack Developer
+- ⚡ Passionate about building real-world, scalable web applications
+- 💡 Experience with UI/UX, backend systems, and real-time apps
