@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //prettier-ignore
-import { MapPin, GraduationCap, Banknote, School, Calendar,} from "lucide-react";
+import { MapPin, GraduationCap, Banknote, School, Calendar, BookOpen,} from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../hooks/useTheme";
 import { ScholarshipAPI } from "../../api";
@@ -30,6 +30,7 @@ const TopScholarships = () => {
   }, []);
 
   const topScholarships = scholarships.slice(0, 6);
+  // console.log(topScholarships);
 
   return (
     <div className={`py-14 transition ${theme ? "bg-gray-50" : "bg-gray-900"}`}>
@@ -104,11 +105,11 @@ const TopScholarships = () => {
                   </p>
 
                   <p
-                    className={`text-sm mb-1 ${
+                    className={`flex items-center gap-1 text-sm mb-1 ${
                       theme ? "text-gray-700" : "text-gray-300"
                     }`}
                   >
-                    🎓 {sch.subjectCategory}
+                    <BookOpen size={16} /> {sch.subjectCategory}
                   </p>
 
                   <p
@@ -130,16 +131,14 @@ const TopScholarships = () => {
                   </p>
 
                   <p
-                    className={`flex items-center gap-1 text-sm mb-3 ${
+                    className={`flex items-center gap-1 text-sm mb-1 ${
                       theme ? "text-gray-700" : "text-gray-300"
                     }`}
                   >
                     <Banknote size={16} />
-                    Application Fee:{" "}
+                    Tuition Fee:{" "}
                     <span className="font-semibold ml-1">
-                      {sch.applicationFees > 0
-                        ? `$${sch.applicationFees}`
-                        : "Free"}
+                      ${sch.tuitionFees}
                     </span>
                   </p>
 
